@@ -6,8 +6,40 @@ import { Textarea } from "@/components/ui/textarea";
 import { Player } from "@remotion/player";
 import InteractivePlayer from "./InteractivePlayer";
 import { useState } from "react";
-import { MoveDownIcon, MoveUpIcon, PlusIcon, Trash } from "lucide-react";
+import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  Film,
+  MoreHorizontal,
+  MoveDownIcon,
+  MoveUpIcon,
+  PlusIcon,
+  Ratio,
+  Trash,
+  Type,
+  Wand,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import AlignMentButtonContainer from "./AlignMentButtonContainer";
+import TypographyMenu from "./TypographyMenu";
+import AspectRatioMenu from "./AspectRatioMenu";
+import AnimationMenu from "./AnimationMenu";
 
 let defaultFrames: frameInputType[] = [
   {
@@ -85,16 +117,16 @@ export default function EditorPage() {
   };
 
   return (
-    <ContentWrapper>
-      <div className="flex gap-4 items-start w-full h-full justify-start">
-        <div className="flex-1">
+    <div className="h-screen w-full p-8">
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-3 ">
           <h3 className="text-xl font-semibold my-4">Frames</h3>
-          <ScrollArea className="h-[600px] w-[400px]">
+          <ScrollArea className="h-[80vh] pb-12">
             <div className="p-4">
               {frames.map((frame, index) => (
                 <div
                   key={`${frame.text}-${frame.id}`}
-                  className="my-4 p-4 bg-slate-50"
+                  className="my-4 p-4 bg-slate-50 rounded-md"
                 >
                   <Textarea
                     defaultValue={frame.text}
@@ -103,7 +135,7 @@ export default function EditorPage() {
                       tempFrames[index].text = e.target.value;
                       setFrames(tempFrames);
                     }}
-                    className="bg-white border-none rounded-lg"
+                    className="border-none rounded-lg resize-none"
                   />
                   <div className="flex items-center justify-end py-2">
                     <Button
@@ -134,27 +166,67 @@ export default function EditorPage() {
                 </div>
               ))}
             </div>
-            <Button className="w-full" onClick={() => addNewFrame(-1)}>
-              + Add Frame
-            </Button>
           </ScrollArea>
+          <Button className="w-full" onClick={() => addNewFrame(-1)}>
+            + Add Frame
+          </Button>
         </div>
-        <div className="flex-1">
+        <div className="col-span-6 px-2">
           <Player
             component={InteractivePlayer}
             durationInFrames={
               frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
             }
             fps={fps}
-            compositionHeight={600}
-            compositionWidth={600}
+            className="w-full h-full"
+            compositionHeight={800}
+            compositionWidth={900}
             loop={true}
             controls={true}
             autoPlay={true}
             inputProps={{ frames: frames }}
           />
         </div>
+        <div className="col-span-3">
+          <div className="w-full ">
+            <Tabs>
+              <TabsList
+                defaultValue="typography"
+                className="w-full flex justify-around items-center"
+              >
+                <TabsTrigger value="typography">
+                  <Type />
+                </TabsTrigger>
+                <TabsTrigger value="ratio">
+                  <Ratio />
+                </TabsTrigger>
+                <TabsTrigger value="background">
+                  <Film />
+                </TabsTrigger>
+                <TabsTrigger value="animation">
+                  <Wand />
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="typography">
+                <TypographyMenu />
+              </TabsContent>
+              <TabsContent value="ratio">
+                <AspectRatioMenu />
+              </TabsContent>
+              <TabsContent value="background">
+                <div className="w-full">
+                  <h3 className="text-lg font-semibold my-4 text-center">
+                    Coming soon!
+                  </h3>
+                </div>
+              </TabsContent>
+              <TabsContent value="animation">
+                <AnimationMenu />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
       </div>
-    </ContentWrapper>
+    </div>
   );
 }

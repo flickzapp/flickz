@@ -7,7 +7,6 @@ import {
   useVideoConfig,
   interpolate,
 } from "remotion";
-import { Name } from "./Name";
 
 function FrameRenderer(ipframe: frameInputType) {
   const { fps, width, height } = useVideoConfig();

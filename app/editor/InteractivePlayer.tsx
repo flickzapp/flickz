@@ -69,7 +69,9 @@ function FrameRenderer(ipframe: frameInputType) {
   return (
     <div className="flex items-center justify-center bg-black w-full h-full">
       <div
-        className="font-bold text-white text-3xl"
+        className={` text-white font-${ipframe.fontFamily} ${ipframe.align} ${
+          ipframe.fontWeight || "font-bold"
+        } ${ipframe.fontSize || "text-3xl"}`}
         // @ts-ignore
         style={{ ...animate[ipframe.entryAnimate], ...animate["fadeOut"] }}
       >

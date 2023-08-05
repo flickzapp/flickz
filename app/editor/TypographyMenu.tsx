@@ -74,9 +74,8 @@ export default function TypographyMenu({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="inter">Inter</SelectItem>
-          <SelectItem value="Noto-Sans">Noto Sans</SelectItem>
-          <SelectItem value="Roboto">Roboto</SelectItem>
-          <SelectItem value="Poppins">Poppins</SelectItem>
+          <SelectItem value="sans">Noto Sans</SelectItem>
+          <SelectItem value="serif">Roboto</SelectItem>
         </SelectContent>
       </Select>
       <div className="flex gap-4 ">

@@ -1,18 +1,12 @@
 "use client";
 
-import ContentWrapper from "@/components/shared/ContentWrapper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Player } from "@remotion/player";
+import { Player, PlayerRef } from "@remotion/player";
 import InteractivePlayer from "./InteractivePlayer";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
   Film,
-  MoreHorizontal,
   MoveDownIcon,
   MoveUpIcon,
   PlusIcon,
@@ -23,20 +17,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import AlignMentButtonContainer from "./AlignMentButtonContainer";
 import TypographyMenu from "./TypographyMenu";
 import AspectRatioMenu from "./AspectRatioMenu";
 import AnimationMenu from "./AnimationMenu";
@@ -47,29 +27,48 @@ let defaultFrames: frameInputType[] = [
     duration: 4,
     id: 1,
     entryAnimate: "grow",
+    fontSize: "text-2xl",
+    fontWeight: "font-semibold",
+    align: "text-center",
+    fontFamily: "inter",
   },
   {
     text: "This is second frame",
     duration: 2,
     id: 2,
     entryAnimate: "none",
+    fontSize: "text-2xl",
+    fontWeight: "font-semibold",
+    align: "text-center",
+    fontFamily: "inter",
   },
   {
     text: "This is third frame",
     duration: 4,
     id: 3,
     entryAnimate: "slideFromRight",
+    fontSize: "text-2xl",
+    fontWeight: "font-semibold",
+    align: "text-center",
+    fontFamily: "inter",
   },
   {
     text: "This is fourth frame",
     duration: 4,
     id: 4,
     entryAnimate: "moveUp",
+    fontSize: "text-2xl",
+    fontWeight: "font-semibold",
+    align: "text-center",
+    fontFamily: "inter",
   },
 ];
 const fps = 60;
 export default function EditorPage() {
   const [frames, setFrames] = useState<frameInputType[]>(defaultFrames);
+  console.log(frames);
+  const playerRef = useRef<PlayerRef>(null);
+  const [currentFrame, setCurrentFrame] = useState(0);
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];
@@ -77,7 +76,7 @@ export default function EditorPage() {
         tempFrames[inputIndex - 1],
         tempFrames[inputIndex],
       ];
-
+      setCurrentFrame(inputIndex - 1);
       setFrames(tempFrames);
     }
   };
@@ -90,6 +89,7 @@ export default function EditorPage() {
         tempFrames[inputIndex],
       ];
       setFrames(tempFrames);
+      setCurrentFrame(inputIndex + 1);
     }
   };
 
@@ -116,6 +116,18 @@ export default function EditorPage() {
     setFrames([...tempFrames]);
   };
 
+  // moves the player to specific frame
+  const handleClick = (index: number) => {
+    let frameIndex = 0;
+    for (let i = 0; i < index; i++) {
+      frameIndex += frames[i].duration;
+    }
+    playerRef.current?.seekTo(frameIndex * fps);
+    setCurrentFrame(index);
+    // pause
+    playerRef.current?.pause();
+  };
+
   return (
     <div className="h-screen w-full p-8">
       <div className="grid grid-cols-12 gap-4">
@@ -126,7 +138,12 @@ export default function EditorPage() {
               {frames.map((frame, index) => (
                 <div
                   key={`${frame.text}-${frame.id}`}
-                  className="my-4 p-4 bg-slate-50 rounded-md"
+                  className={`my-4 p-4 bg-slate-50 rounded-md cursor-pointer transition ease-linear ${
+                    currentFrame === index
+                      ? "border-2 border-b-2 border-black scale-100"
+                      : " scale-75"
+                  }`}
+                  onClick={() => handleClick(index)}
                 >
                   <Textarea
                     defaultValue={frame.text}
@@ -174,6 +191,7 @@ export default function EditorPage() {
         <div className="col-span-6 px-2">
           <Player
             component={InteractivePlayer}
+            ref={playerRef}
             durationInFrames={
               frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
             }
@@ -208,7 +226,11 @@ export default function EditorPage() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="typography">
-                <TypographyMenu />
+                <TypographyMenu
+                  currentFrame={currentFrame}
+                  frames={frames}
+                  setFrames={setFrames}
+                />
               </TabsContent>
               <TabsContent value="ratio">
                 <AspectRatioMenu />

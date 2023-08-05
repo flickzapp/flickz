@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +29,40 @@ import {
   Type,
   Wand,
 } from "lucide-react";
-export default function TypographyMenu() {
+import { useEffect, useRef, useState } from "react";
+type DefaultStatesType = {
+  fontFamily: string;
+  align: string;
+  fontWeight: string;
+  fontSize: string;
+};
+
+export default function TypographyMenu({
+  currentFrame,
+  frames,
+  setFrames,
+}: any) {
+  const handlePropertyChange = (fieldKey: string, newVal: string) => {
+    let newFrames = frames.map((frame: any, index: number) => {
+      if (index === currentFrame) {
+        return { ...frame, [fieldKey]: newVal };
+      }
+      return frame;
+    });
+    setFrames(newFrames);
+  };
+  const [defaultStates, setDefaultState] = useState<
+    DefaultStatesType | undefined
+  >();
+  const fontRef = useRef("inter");
+  useEffect(() => {
+    console.log("currentFrame", currentFrame);
+    const { fontFamily, align, fontWeight, fontSize } = frames[currentFrame];
+    console.log(fontFamily);
+    fontRef.current = fontFamily;
+    setDefaultState({ fontFamily, align, fontWeight, fontSize });
+  }, [currentFrame, frames]);
+
   return (
     <div className="flex flex-col w-full space-y-6">
       <div className="flex justify-between items-center ">
@@ -41,9 +76,12 @@ export default function TypographyMenu() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Select>
+      <Select
+        onValueChange={(val) => handlePropertyChange("fontFamily", val)}
+        defaultValue={fontRef.current}
+      >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Inter" />
+          <SelectValue placeholder="Font Style" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="inter">Inter</SelectItem>
@@ -54,22 +92,28 @@ export default function TypographyMenu() {
       </Select>
       <div className="flex gap-4 ">
         <div className="flex-1">
-          <Select>
+          <Select
+            onValueChange={(val) => handlePropertyChange("fontWeight", val)}
+            defaultValue={defaultStates?.fontWeight || ""}
+          >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Bold" />
+              <SelectValue placeholder="Font-Weight" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="w-800">Bold</SelectItem>
-              <SelectItem value="w-400">Regular</SelectItem>
-              <SelectItem value="w-600">Medium</SelectItem>
-              <SelectItem value="w-900s">Extra Bold</SelectItem>
+              <SelectItem value="font-bold">Bold</SelectItem>
+              <SelectItem value="font-normal">Regular</SelectItem>
+              <SelectItem value="font-semibold">Medium</SelectItem>
+              <SelectItem value="font-extrabold">Extra Bold</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="flex-1">
-          <Select>
+          <Select
+            onValueChange={(val) => handlePropertyChange("fontSize", val)}
+            defaultValue={defaultStates?.fontSize || ""}
+          >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Regular" />
+              <SelectValue placeholder="Font-Size" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="LG">Regular</SelectItem>
@@ -80,7 +124,7 @@ export default function TypographyMenu() {
           </Select>
         </div>
       </div>
-      <AlignMentButtonContainer />
+      <AlignMentButtonContainer handleChange={handlePropertyChange} />
       <div className="flex justify-between items-center ">
         <h3 className="text-lg font-semibold my-4">Background Fill</h3>
         <DropdownMenu>

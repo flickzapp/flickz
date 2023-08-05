@@ -225,7 +225,7 @@ export default function EditorPage() {
                   <Wand />
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="typography">
+              <TabsContent value="typography" key={currentFrame}>
                 <TypographyMenu
                   currentFrame={currentFrame}
                   frames={frames}

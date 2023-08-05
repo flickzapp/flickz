@@ -51,17 +51,6 @@ export default function TypographyMenu({
     });
     setFrames(newFrames);
   };
-  const [defaultStates, setDefaultState] = useState<
-    DefaultStatesType | undefined
-  >();
-  const fontRef = useRef("inter");
-  useEffect(() => {
-    console.log("currentFrame", currentFrame);
-    const { fontFamily, align, fontWeight, fontSize } = frames[currentFrame];
-    console.log(fontFamily);
-    fontRef.current = fontFamily;
-    setDefaultState({ fontFamily, align, fontWeight, fontSize });
-  }, [currentFrame, frames]);
 
   return (
     <div className="flex flex-col w-full space-y-6">
@@ -78,7 +67,7 @@ export default function TypographyMenu({
       </div>
       <Select
         onValueChange={(val) => handlePropertyChange("fontFamily", val)}
-        defaultValue={fontRef.current}
+        defaultValue={frames[currentFrame].fontFamily}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Font Style" />
@@ -94,7 +83,7 @@ export default function TypographyMenu({
         <div className="flex-1">
           <Select
             onValueChange={(val) => handlePropertyChange("fontWeight", val)}
-            defaultValue={defaultStates?.fontWeight || ""}
+            defaultValue={frames[currentFrame].fontWeight}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Font-Weight" />
@@ -110,16 +99,16 @@ export default function TypographyMenu({
         <div className="flex-1">
           <Select
             onValueChange={(val) => handlePropertyChange("fontSize", val)}
-            defaultValue={defaultStates?.fontSize || ""}
+            defaultValue={frames[currentFrame].fontSize}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Font-Size" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="LG">Regular</SelectItem>
-              <SelectItem value="XL">XL</SelectItem>
-              <SelectItem value="2XL">2XL</SelectItem>
-              <SelectItem value="3XL">3XL</SelectItem>
+              <SelectItem value="text-lg">Regular</SelectItem>
+              <SelectItem value="text-xl">XL</SelectItem>
+              <SelectItem value="text-2xl">2XL</SelectItem>
+              <SelectItem value="text-3xl">3XL</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+--text: hsl(0, 0%, 100%);
+--background: hsl(60, 4%, 5%);
+--primary: hsl(100, 3%, 21%);
+--secondary: hsl(120, 2%, 8%);
+--accent: hsl(90, 2%, 78%); */
  
 @layer base {
   :root {
@@ -37,7 +44,7 @@
   }
  
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 60, 4%, 5%;
     --foreground: 210 40% 98%;
  
     --muted: 217.2 32.6% 17.5%;

@@ -131,7 +131,7 @@ export default function EditorPage() {
     setFrames(tempFrames);
     setCurrentFrame(index);
     setCurrentFrameContent(tempFrames[index].text);
-    // pause
+    // pause after choosing a particular frame
     playerRef.current?.pause();
   };
 
@@ -222,7 +222,7 @@ export default function EditorPage() {
         </div>
         <div className="col-span-3">
           <div className="w-full ">
-            <Tabs defaultValue="typography">
+            <Tabs defaultValue="typography" key={currentFrame}>
               <TabsList
                 defaultValue="typography"
                 className="w-full flex justify-around items-center"
@@ -240,7 +240,7 @@ export default function EditorPage() {
                   <Wand />
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="typography" key={currentFrame}>
+              <TabsContent value="typography">
                 <TypographyMenu
                   currentFrame={currentFrame}
                   frames={frames}
@@ -257,7 +257,7 @@ export default function EditorPage() {
                   </h3>
                 </div>
               </TabsContent>
-              <TabsContent value="animation" key={currentFrame}>
+              <TabsContent value="animation">
                 <AnimationMenu
                   currentFrame={currentFrame}
                   frames={frames}

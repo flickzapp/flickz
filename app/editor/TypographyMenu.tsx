@@ -14,28 +14,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AlignMentButtonContainer from "./AlignMentButtonContainer";
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  Film,
-  MoreHorizontal,
-  MoveDownIcon,
-  MoveUpIcon,
-  PlusIcon,
-  Ratio,
-  Trash,
-  Type,
-  Wand,
-} from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { MoreHorizontal } from "lucide-react";
+import { fontSizes, fontWeights, fonts } from "@/config/typographyMenuOpts";
 
+interface TypographyMenuInterface {
+  currentFrame: number;
+  frames: frameInputType[];
+  setFrames: any;
+}
 export default function TypographyMenu({
   currentFrame,
   frames,
   setFrames,
-}: any) {
+}: TypographyMenuInterface) {
   const handlePropertyChange = (fieldKey: string, newVal: string) => {
     let newFrames = frames.map((frame: any, index: number) => {
       if (index === currentFrame) {
@@ -67,9 +58,11 @@ export default function TypographyMenu({
           <SelectValue placeholder="Font Style" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="inter">Inter</SelectItem>
-          <SelectItem value="sans">Noto Sans</SelectItem>
-          <SelectItem value="serif">Roboto</SelectItem>
+          {fonts.map((font) => (
+            <SelectItem value={font.value} key={font.value}>
+              {font.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
       <div className="flex gap-4 ">
@@ -82,10 +75,11 @@ export default function TypographyMenu({
               <SelectValue placeholder="Font-Weight" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="font-bold">Bold</SelectItem>
-              <SelectItem value="font-normal">Regular</SelectItem>
-              <SelectItem value="font-semibold">Medium</SelectItem>
-              <SelectItem value="font-extrabold">Extra Bold</SelectItem>
+              {fontWeights.map((font) => (
+                <SelectItem value={font.value} key={font.value}>
+                  {font.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -98,10 +92,11 @@ export default function TypographyMenu({
               <SelectValue placeholder="Font-Size" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="text-lg">Regular</SelectItem>
-              <SelectItem value="text-xl">XL</SelectItem>
-              <SelectItem value="text-2xl">2XL</SelectItem>
-              <SelectItem value="text-3xl">3XL</SelectItem>
+              {fontSizes.map((font) => (
+                <SelectItem value={font.value} key={font.value}>
+                  {font.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

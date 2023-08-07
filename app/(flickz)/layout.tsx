@@ -9,7 +9,7 @@ interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
-export default async function DashboardLayout({
+export default async function FlickzLayout({
   children,
 }: DashboardLayoutProps) {
   const user = await getCurrentUser();

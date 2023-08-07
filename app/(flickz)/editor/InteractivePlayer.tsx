@@ -7,9 +7,16 @@ import {
   useVideoConfig,
   interpolate,
 } from "remotion";
-import { Name } from "./Name";
 
-function FrameRenderer(ipframe: frameInputType) {
+function FrameRenderer({
+  ipframe,
+  currentFrame,
+  currentFrameText,
+}: {
+  ipframe: frameInputType;
+  currentFrame: boolean;
+  currentFrameText: string;
+}) {
   const { fps, width, height } = useVideoConfig();
   const frame = useCurrentFrame();
   const entryProgress = spring({
@@ -57,7 +64,7 @@ function FrameRenderer(ipframe: frameInputType) {
       opacity: interpolate(exitProgress, [0, 1], [1, 0]),
     },
     shrink: {
-      transform: `scale(${interpolate(entryProgress, [0, 1], [1, 0])})`,
+      transform: `scale(${interpolate(exitProgress, [0, 1], [1, 0])})`,
     },
     slideFromLeft: {
       transform: `translateX(${interpolate(
@@ -66,23 +73,36 @@ function FrameRenderer(ipframe: frameInputType) {
         [-1000, 0]
       )}px)`,
     },
+    none: {
+      maxWidth: 1200,
+    },
   };
   return (
     <div className="flex items-center justify-center bg-black w-full h-full">
       <div
-        className="font-bold text-white text-3xl"
+        className={` text-white font-${ipframe.fontFamily} ${ipframe.align} ${
+          ipframe.fontWeight || "font-bold"
+        } ${ipframe.fontSize || "text-3xl"}`}
         // @ts-ignore
-        style={{ ...animate[ipframe.entryAnimate], ...animate["fadeOut"] }}
+        style={{
+          ...animate[ipframe.entryAnimate || "none"],
+          ...animate[ipframe.exitAnimate || "none"],
+        }}
       >
-        {ipframe.text}
+        {currentFrame ? currentFrameText : ipframe.text}
       </div>
     </div>
   );
 }
+
 export default function InteractivePlayer({
   frames,
+  currentFrame,
+  currentFrameText,
 }: {
   frames: frameInputType[];
+  currentFrame: number;
+  currentFrameText: string;
 }) {
   const { fps } = useVideoConfig();
   return (
@@ -93,7 +113,11 @@ export default function InteractivePlayer({
             key={index}
             durationInFrames={ipframe.duration * fps}
           >
-            <FrameRenderer {...ipframe} />
+            <FrameRenderer
+              ipframe={ipframe}
+              currentFrame={currentFrame === index}
+              currentFrameText={currentFrameText}
+            />
           </Series.Sequence>
         );
       })}

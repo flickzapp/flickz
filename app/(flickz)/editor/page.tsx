@@ -5,21 +5,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Player, PlayerRef } from "@remotion/player";
 import InteractivePlayer from "./InteractivePlayer";
 import { useRef, useState } from "react";
-import {
-  Film,
-  MoveDownIcon,
-  MoveUpIcon,
-  PlusIcon,
-  Ratio,
-  Trash,
-  Type,
-  Wand,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyMenu from "./TypographyMenu";
 import AspectRatioMenu from "./AspectRatioMenu";
 import AnimationMenu from "./AnimationMenu";
+import { Icons } from "@/components/icons";
 
 let defaultFrames: frameInputType[] = [
   {
@@ -171,24 +162,24 @@ export default function EditorPage() {
                       onClick={() => moveUp(index)}
                       disabled={index === 0 ? true : false}
                     >
-                      <MoveUpIcon className="h-4 w-4 " />
+                      <Icons.moveUp className="h-4 w-4 " />
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => moveDown(index)}
                       disabled={index === frames.length - 1 ? true : false}
                     >
-                      <MoveDownIcon className="h-4 w-4" />
+                      <Icons.moveDown className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" onClick={() => addNewFrame(index)}>
-                      <PlusIcon className="h-4 w-4" />
+                      <Icons.plusIcon className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => deleteFrame(index)}
                       disabled={frames.length === 1 ? true : false}
                     >
-                      <Trash className="h-4 w-4" />
+                      <Icons.trash className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -228,16 +219,16 @@ export default function EditorPage() {
                 className="w-full flex justify-around items-center"
               >
                 <TabsTrigger value="typography">
-                  <Type />
+                  <Icons.typography />
                 </TabsTrigger>
                 <TabsTrigger value="ratio">
-                  <Ratio />
+                  <Icons.screenSize />
                 </TabsTrigger>
                 <TabsTrigger value="background">
-                  <Film />
+                  <Icons.mediaAssets />
                 </TabsTrigger>
                 <TabsTrigger value="animation">
-                  <Wand />
+                  <Icons.magicWand />
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="typography">

@@ -257,8 +257,12 @@ export default function EditorPage() {
                   </h3>
                 </div>
               </TabsContent>
-              <TabsContent value="animation">
-                <AnimationMenu />
+              <TabsContent value="animation" key={currentFrame}>
+                <AnimationMenu
+                  currentFrame={currentFrame}
+                  frames={frames}
+                  setFrames={setFrames}
+                />
               </TabsContent>
             </Tabs>
           </div>

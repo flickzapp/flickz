@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/select";
 import { MoreHorizontal } from "lucide-react";
 
-export default function AnimationMenu() {
+export default function AnimationMenu({
+  currentFrame,
+  frames,
+  setFrames,
+}: any) {
   const entryAnimations = [
     {
       name: "No Animation",
@@ -29,7 +33,7 @@ export default function AnimationMenu() {
     },
     {
       name: "Slide From Bottom",
-      value: "slideFromBottom",
+      value: "moveUp",
     },
   ];
 
@@ -42,7 +46,21 @@ export default function AnimationMenu() {
       name: "Shrink",
       value: "shrink",
     },
+    {
+      name: "No Animation",
+      value: "none",
+    },
   ];
+
+  const handlePropertyChange = (fieldKey: string, newVal: string) => {
+    let newFrames = frames.map((frame: any, index: number) => {
+      if (index === currentFrame) {
+        return { ...frame, [fieldKey]: newVal };
+      }
+      return frame;
+    });
+    setFrames(newFrames);
+  };
 
   return (
     <div className="flex flex-col w-full space-y-6">
@@ -58,7 +76,10 @@ export default function AnimationMenu() {
         </DropdownMenu>
       </div>
       <h3 className="text-md ">On Enter</h3>
-      <Select>
+      <Select
+        onValueChange={(val) => handlePropertyChange("entryAnimate", val)}
+        defaultValue={frames[currentFrame].entryAnimate}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="None" />
         </SelectTrigger>
@@ -71,7 +92,10 @@ export default function AnimationMenu() {
         </SelectContent>
       </Select>
       <h3 className="text-md ">On Exit</h3>
-      <Select>
+      <Select
+        onValueChange={(val) => handlePropertyChange("exitAnimate", val)}
+        defaultValue={frames[currentFrame].exitAnimate || "none"}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="None" />
         </SelectTrigger>

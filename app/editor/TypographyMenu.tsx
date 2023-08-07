@@ -30,12 +30,6 @@ import {
   Wand,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-type DefaultStatesType = {
-  fontFamily: string;
-  align: string;
-  fontWeight: string;
-  fontSize: string;
-};
 
 export default function TypographyMenu({
   currentFrame,

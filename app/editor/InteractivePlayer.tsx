@@ -64,7 +64,7 @@ function FrameRenderer({
       opacity: interpolate(exitProgress, [0, 1], [1, 0]),
     },
     shrink: {
-      transform: `scale(${interpolate(entryProgress, [0, 1], [1, 0])})`,
+      transform: `scale(${interpolate(exitProgress, [0, 1], [1, 0])})`,
     },
     slideFromLeft: {
       transform: `translateX(${interpolate(
@@ -72,6 +72,9 @@ function FrameRenderer({
         [0, 1],
         [-1000, 0]
       )}px)`,
+    },
+    none: {
+      maxWidth: 1200,
     },
   };
   return (
@@ -81,7 +84,10 @@ function FrameRenderer({
           ipframe.fontWeight || "font-bold"
         } ${ipframe.fontSize || "text-3xl"}`}
         // @ts-ignore
-        style={{ ...animate[ipframe.entryAnimate], ...animate["fadeOut"] }}
+        style={{
+          ...animate[ipframe.entryAnimate || "none"],
+          ...animate[ipframe.exitAnimate || "none"],
+        }}
       >
         {currentFrame ? currentFrameText : ipframe.text}
       </div>

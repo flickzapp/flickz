@@ -20,7 +20,7 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
               href="/login"
               className={cn(
                 buttonVariants({ variant: "default", size: "sm" }),
-                'rounded-3xl'
+                "rounded-3xl"
               )}
             >
               get started

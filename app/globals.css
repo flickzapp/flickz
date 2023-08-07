@@ -50,10 +50,10 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
  
-    --popover: 222.2 84% 4.9%;
+    --popover: 60, 4%, 5%;
     --popover-foreground: 210 40% 98%;
  
-    --card: 222.2 84% 4.9%;
+    --card: 60, 4%, 5%;
     --card-foreground: 210 40% 98%;
  
     --border: 217.2 32.6% 17.5%;

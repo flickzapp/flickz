@@ -8,7 +8,15 @@ import {
   interpolate,
 } from "remotion";
 
-function FrameRenderer(ipframe: frameInputType) {
+function FrameRenderer({
+  ipframe,
+  currentFrame,
+  currentFrameText,
+}: {
+  ipframe: frameInputType;
+  currentFrame: boolean;
+  currentFrameText: string;
+}) {
   const { fps, width, height } = useVideoConfig();
   const frame = useCurrentFrame();
   const entryProgress = spring({
@@ -75,15 +83,20 @@ function FrameRenderer(ipframe: frameInputType) {
         // @ts-ignore
         style={{ ...animate[ipframe.entryAnimate], ...animate["fadeOut"] }}
       >
-        {ipframe.text}
+        {currentFrame ? currentFrameText : ipframe.text}
       </div>
     </div>
   );
 }
+
 export default function InteractivePlayer({
   frames,
+  currentFrame,
+  currentFrameText,
 }: {
   frames: frameInputType[];
+  currentFrame: number;
+  currentFrameText: string;
 }) {
   const { fps } = useVideoConfig();
   return (
@@ -94,7 +107,11 @@ export default function InteractivePlayer({
             key={index}
             durationInFrames={ipframe.duration * fps}
           >
-            <FrameRenderer {...ipframe} />
+            <FrameRenderer
+              ipframe={ipframe}
+              currentFrame={currentFrame === index}
+              currentFrameText={currentFrameText}
+            />
           </Series.Sequence>
         );
       })}

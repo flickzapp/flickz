@@ -66,9 +66,12 @@ let defaultFrames: frameInputType[] = [
 const fps = 60;
 export default function EditorPage() {
   const [frames, setFrames] = useState<frameInputType[]>(defaultFrames);
-  console.log(frames);
   const playerRef = useRef<PlayerRef>(null);
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [currentFrameContent, setCurrentFrameContent] = useState(
+    frames[0].text
+  );
+
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];
@@ -123,7 +126,11 @@ export default function EditorPage() {
       frameIndex += frames[i].duration;
     }
     playerRef.current?.seekTo(frameIndex * fps);
+    let tempFrames = [...frames];
+    tempFrames[currentFrame].text = currentFrameContent;
+    setFrames(tempFrames);
     setCurrentFrame(index);
+    setCurrentFrameContent(tempFrames[index].text);
     // pause
     playerRef.current?.pause();
   };
@@ -145,15 +152,19 @@ export default function EditorPage() {
                   }`}
                   onClick={() => handleClick(index)}
                 >
-                  <Textarea
-                    defaultValue={frame.text}
-                    onChange={(e) => {
-                      let tempFrames = [...frames];
-                      tempFrames[index].text = e.target.value;
-                      setFrames(tempFrames);
-                    }}
-                    className="border-none rounded-lg resize-none"
-                  />
+                  {currentFrame === index ? (
+                    <Textarea
+                      value={currentFrameContent}
+                      onChange={(e) => {
+                        setCurrentFrameContent(e.target.value);
+                        e.stopPropagation();
+                      }}
+                      className="border-none rounded-lg resize-none"
+                    />
+                  ) : (
+                    <p>{frame.text}</p>
+                  )}
+
                   <div className="flex items-center justify-end py-2">
                     <Button
                       variant="ghost"
@@ -202,12 +213,16 @@ export default function EditorPage() {
             loop={true}
             controls={true}
             autoPlay={true}
-            inputProps={{ frames: frames }}
+            inputProps={{
+              frames: frames,
+              currentFrame: currentFrame,
+              currentFrameText: currentFrameContent,
+            }}
           />
         </div>
         <div className="col-span-3">
           <div className="w-full ">
-            <Tabs>
+            <Tabs defaultValue="typography">
               <TabsList
                 defaultValue="typography"
                 className="w-full flex justify-around items-center"

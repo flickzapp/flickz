@@ -11,7 +11,7 @@ interface LandingLayoutProps {
 
 export default async function LandingLayout({ children }: LandingLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col lowercase">
       <header className="container z-40 bg-background px-32">
         <div className="flex h-20 items-center justify-between">
           <MainNav />

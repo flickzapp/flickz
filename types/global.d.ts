@@ -1,6 +1,7 @@
 type frameInputType = {
   text: string;
-  id: number;
+  id: string;
+  index: number;
   duration: number;
   entryAnimate: "grow" | "none" | "moveUp" | "slideFromRight";
   fontFamily?: "inter" | "roboto" | "poppins" | "notosans";
@@ -9,4 +10,8 @@ type frameInputType = {
   align?: "text-left" | "text-center" | "text-right" | "text-justify";
   exitAnimate?: "fadeOut" | "shrink" | "none";
   backgroundColor?: string;
+  projectId?: string;
+  fontColor?: string;
+  backgroundImgLink?: string;
+  backgroundVideoLink?: string;
 };

@@ -6,7 +6,7 @@ interface ContentWrapperProps {
 
 export default function ContentWrapper({ children }: ContentWrapperProps) {
   return (
-    <div className="min-h-screen flex flex-col p-8 md:px-12 gap-6 justify-center items-center">
+    <div className="min-h-screen flex flex-col p-8 md:px-12 gap-6 justify-start items-center">
       {children}
     </div>
   );

@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -12,18 +12,18 @@ generator client {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -37,7 +37,6 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
 
   @@index([userId])
 }
@@ -50,6 +49,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Project       Project[]
 }
 
 model VerificationToken {
@@ -58,4 +58,41 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  aspectRatio String?
+  audioLink   String?
+  Frame       Frame[]
+
+  @@index([userId])
+}
+
+model Frame {
+  id                  String   @id @default(cuid())
+  index               Int      @default(0)
+  projectId           String
+  project             Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  duration            Int      @default(0)
+  text                String   @default("This is frame")
+  entryAnimate        String   @default("none")
+  exitAnimate         String   @default("none")
+  fontFamily          String   @default("inter")
+  fontSize            String   @default("text-2xl")
+  fontWeight          String   @default("font-bold")
+  fontColor           String   @default("#FFF")
+  backgroundColor     String   @default("#000")
+  align               String   @default("text-center")
+  backgroundImgLink   String?
+  backgroundVideoLink String?
+  createdAt           DateTime @default(now())
+
+  @@index([projectId])
 }

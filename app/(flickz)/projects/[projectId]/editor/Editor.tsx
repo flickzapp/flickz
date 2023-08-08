@@ -12,50 +12,12 @@ import AspectRatioMenu from "./AspectRatioMenu";
 import AnimationMenu from "./AnimationMenu";
 import { Icons } from "@/components/icons";
 
-let defaultFrames: frameInputType[] = [
-  {
-    text: "Hello World",
-    duration: 4,
-    id: 1,
-    entryAnimate: "grow",
-    fontSize: "text-2xl",
-    fontWeight: "font-semibold",
-    align: "text-center",
-    fontFamily: "inter",
-  },
-  {
-    text: "This is second frame",
-    duration: 2,
-    id: 2,
-    entryAnimate: "none",
-    fontSize: "text-2xl",
-    fontWeight: "font-semibold",
-    align: "text-center",
-    fontFamily: "inter",
-  },
-  {
-    text: "This is third frame",
-    duration: 4,
-    id: 3,
-    entryAnimate: "slideFromRight",
-    fontSize: "text-2xl",
-    fontWeight: "font-semibold",
-    align: "text-center",
-    fontFamily: "inter",
-  },
-  {
-    text: "This is fourth frame",
-    duration: 4,
-    id: 4,
-    entryAnimate: "moveUp",
-    fontSize: "text-2xl",
-    fontWeight: "font-semibold",
-    align: "text-center",
-    fontFamily: "inter",
-  },
-];
 const fps = 60;
-export default function EditorPage() {
+export default function Editor({
+  defaultFrames,
+}: {
+  defaultFrames: frameInputType[];
+}) {
   const [frames, setFrames] = useState<frameInputType[]>(defaultFrames);
   const playerRef = useRef<PlayerRef>(null);
   const [currentFrame, setCurrentFrame] = useState(0);
@@ -91,7 +53,8 @@ export default function EditorPage() {
     let newFrame: frameInputType = {
       text: "New Frame",
       duration: 2,
-      id: Math.random() * 20,
+      id: `${Math.random() * 20}`,
+      index: inputIndex === -1 ? frames.length : inputIndex + 1,
       entryAnimate: "none",
     };
     if (inputIndex === -1) {

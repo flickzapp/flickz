@@ -1,6 +1,6 @@
 "use client";
 
-import { serverAct } from "@/actions";
+import { createProjectAction } from "@/actions";
 import { Icons } from "@/components/icons";
 import ContentWrapper from "@/components/shared/ContentWrapper";
 import { Button } from "@/components/ui/button";
@@ -48,7 +48,7 @@ export default function VideoCreatePage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     console.log(values);
-    const project = await serverAct(values.title, values.description);
+    const project = await createProjectAction(values.title, values.description);
     setIsLoading(false);
     toast({
       title: "Project Created",

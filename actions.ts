@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./lib/auth";
 import { db } from "./lib/db";
 
-export async function serverAct(title: string, description: string) {
+export async function createProjectAction(title: string, description: string) {
   "use server";
 
   function constructFrames(wordsPerFrame: number) {
@@ -73,3 +73,5 @@ export async function serverAct(title: string, description: string) {
   // console.log(`User ${session?.user?.name} created a project ${title}`);
   return project;
 }
+
+export async function updateFramesAction(projectId: string, frames: any) {}

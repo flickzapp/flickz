@@ -24,7 +24,7 @@ export default function Home() {
               href={`/create`}
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
-                "rounded-3xl text-lg"
+                "text-lg"
               )}
             >
               start creating
@@ -33,7 +33,7 @@ export default function Home() {
               href={`/create`}
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "rounded-3xl text-lg"
+                "text-lg"
               )}
             >
               <Icons.gitHub className="mr-2 h-4 w-4" />

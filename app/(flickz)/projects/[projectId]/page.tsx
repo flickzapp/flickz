@@ -1,5 +1,9 @@
 import { redirect } from "next/navigation";
 
-export default function ProjectPage({ params }: any) {
-  return redirect(`/projects/${params.projectId}/editor`);
+export default function ProjectPage({
+  params: { projectId },
+}: {
+  params: { projectId: string };
+}) {
+  return redirect(`/projects/${projectId}/editor`);
 }

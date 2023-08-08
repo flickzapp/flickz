@@ -4,8 +4,11 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Editor from "./Editor";
 
-export default async function EditorPageWrap({ params }: any) {
-  const projectId = params.projectId as string;
+export default async function EditorPageWrap({
+  params: { projectId },
+}: {
+  params: { projectId: string };
+}) {
   const project = await db.project.findUnique({
     where: {
       id: projectId,

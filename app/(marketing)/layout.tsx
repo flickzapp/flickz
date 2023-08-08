@@ -18,10 +18,7 @@ export default async function LandingLayout({ children }: LandingLayoutProps) {
           <nav>
             <Link
               href="/login"
-              className={cn(
-                buttonVariants({ variant: "default", size: "sm" }),
-                "rounded-3xl"
-              )}
+              className={cn(buttonVariants({ variant: "default", size: "sm" }))}
             >
               get started
             </Link>

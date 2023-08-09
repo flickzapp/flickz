@@ -75,3 +75,24 @@ export async function createProjectAction(title: string, description: string) {
 }
 
 export async function updateFramesAction(projectId: string, frames: any) {}
+
+export async function deleteProjectAction(projectId: string) {
+  const session = await getServerSession(authOptions);
+  const project = await db.project.findFirst({
+    where: {
+      id: projectId,
+      user: {
+        id: session?.user.id,
+      },
+    },
+  });
+  if (!project) {
+    throw new Error("Project not found");
+  }
+  await db.project.delete({
+    where: {
+      id: projectId,
+    },
+  });
+  return project;
+}

@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { deleteProjectAction } from "@/actions";
+import ProjectDeleteButton from "./ProjectDeleteButton";
 export default async function ProjectsPage() {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -72,7 +75,7 @@ export default async function ProjectsPage() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem>
-                      <Button variant="ghost">Delete</Button>
+                      <ProjectDeleteButton projectId={project.id} />
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

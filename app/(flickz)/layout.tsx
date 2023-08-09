@@ -9,9 +9,7 @@ interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
-export default async function FlickzLayout({
-  children,
-}: DashboardLayoutProps) {
+export default async function FlickzLayout({ children }: DashboardLayoutProps) {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -35,9 +33,7 @@ export default async function FlickzLayout({
           </div>
         </div>
       </header>
-      <main className="flex w-full flex-1 flex-col overflow-hidden">
-        {children}
-      </main>
+      <main className="overflow-hidden px-4">{children}</main>
     </div>
   );
 }

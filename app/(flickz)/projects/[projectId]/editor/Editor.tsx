@@ -90,136 +90,139 @@ export default function Editor({
   };
 
   return (
-    <div className="h-screen w-full p-8">
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-3 ">
-          <h3 className="text-xl font-semibold my-4">Frames</h3>
-          <ScrollArea className="h-[80vh] pb-12">
-            <div className="p-4">
-              {frames.map((frame, index) => (
-                <div
-                  key={`${frame.text}-${frame.id}`}
-                  className={`my-4 p-4 bg-slate-50 rounded-md cursor-pointer transition ease-linear ${
-                    currentFrame === index
-                      ? "border-2 border-b-2 border-black scale-100"
-                      : " scale-75"
-                  }`}
-                  onClick={() => handleClick(index)}
-                >
-                  {currentFrame === index ? (
-                    <Textarea
-                      value={currentFrameContent}
-                      onChange={(e) => {
-                        setCurrentFrameContent(e.target.value);
-                        e.stopPropagation();
-                      }}
-                      className="border-none rounded-lg resize-none"
-                    />
-                  ) : (
-                    <p>{frame.text}</p>
-                  )}
-
-                  <div className="flex items-center justify-end py-2">
+    <div className="flex gap-4 justify-between">
+      <div className="flex flex-col w-[600px]">
+        <ScrollArea className="h-[80vh] p-4 dark:text-black">
+          {frames.map((frame, index) => (
+            <div
+              key={`${frame.text}-${frame.id}`}
+              className={`mb-3 p-2 bg-slate-50 rounded-md cursor-pointer transition ease-linear ${
+                currentFrame === index ? "border-2 scale-100" : " scale-75"
+              }`}
+              onClick={() => handleClick(index)}
+            >
+              {currentFrame === index ? (
+                <>
+                  <Textarea
+                    value={currentFrameContent}
+                    onChange={(e) => {
+                      setCurrentFrameContent(e.target.value);
+                      e.stopPropagation();
+                    }}
+                    className="border-none rounded-lg resize-none outline-none"
+                  />
+                  <div className="flex items-center justify-end">
                     <Button
                       variant="ghost"
                       onClick={() => moveUp(index)}
                       disabled={index === 0 ? true : false}
+                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
                     >
-                      <Icons.moveUp className="h-4 w-4 " />
+                      <Icons.moveUp className="h-3 w-3" />
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => moveDown(index)}
                       disabled={index === frames.length - 1 ? true : false}
+                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
                     >
-                      <Icons.moveDown className="h-4 w-4" />
+                      <Icons.moveDown className="h-3 w-3" />
                     </Button>
-                    <Button variant="ghost" onClick={() => addNewFrame(index)}>
-                      <Icons.plusIcon className="h-4 w-4" />
+                    <Button
+                      variant="ghost"
+                      onClick={() => addNewFrame(index)}
+                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
+                    >
+                      <Icons.plusIcon className="h-3 w-3" />
                     </Button>
                     <Button
                       variant="ghost"
                       onClick={() => deleteFrame(index)}
                       disabled={frames.length === 1 ? true : false}
+                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
                     >
-                      <Icons.trash className="h-4 w-4" />
+                      <Icons.trash className="h-3 w-3" />
                     </Button>
                   </div>
-                </div>
-              ))}
+                </>
+              ) : (
+                <p className="bg-transparent p-4">{frame.text}</p>
+              )}
             </div>
-          </ScrollArea>
+          ))}
+
           <Button className="w-full" onClick={() => addNewFrame(-1)}>
             + Add Frame
           </Button>
-        </div>
-        <div className="col-span-6 px-2">
-          <Player
-            component={InteractivePlayer}
-            ref={playerRef}
-            durationInFrames={
-              frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
-            }
-            fps={fps}
-            className="w-full h-full"
-            compositionHeight={800}
-            compositionWidth={900}
-            loop={true}
-            controls={true}
-            autoPlay={true}
-            inputProps={{
-              frames: frames,
-              currentFrame: currentFrame,
-              currentFrameText: currentFrameContent,
-            }}
-          />
-        </div>
-        <div className="col-span-3">
-          <div className="w-full ">
-            <Tabs defaultValue="typography" key={currentFrame}>
-              <TabsList
-                defaultValue="typography"
-                className="w-full flex justify-around items-center"
-              >
-                <TabsTrigger value="typography">
-                  <Icons.typography />
-                </TabsTrigger>
-                <TabsTrigger value="ratio">
-                  <Icons.screenSize />
-                </TabsTrigger>
-                <TabsTrigger value="background">
-                  <Icons.mediaAssets />
-                </TabsTrigger>
-                <TabsTrigger value="animation">
-                  <Icons.magicWand />
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="typography">
-                <TypographyMenu
-                  currentFrame={currentFrame}
-                  frames={frames}
-                  setFrames={setFrames}
-                />
-              </TabsContent>
-              <TabsContent value="ratio">
-                <AspectRatioMenu />
-              </TabsContent>
-              <TabsContent value="background">
-                <div className="w-full">
-                  <h3 className="text-lg font-semibold my-4 text-center">
-                    Coming soon!
-                  </h3>
-                </div>
-              </TabsContent>
-              <TabsContent value="animation">
-                <AnimationMenu
-                  currentFrame={currentFrame}
-                  frames={frames}
-                  setFrames={setFrames}
-                />
-              </TabsContent>
-            </Tabs>
-          </div>
+        </ScrollArea>
+      </div>
+
+      <div className="flex flex-grow flex-shrink">
+        <Player
+          component={InteractivePlayer}
+          ref={playerRef}
+          durationInFrames={
+            frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
+          }
+          className="rounded-lg flex-1 h-full w-full"
+          fps={fps}
+          compositionHeight={600}
+          compositionWidth={900}
+          loop={true}
+          controls={true}
+          autoPlay={true}
+          inputProps={{
+            frames: frames,
+            currentFrame: currentFrame,
+            currentFrameText: currentFrameContent,
+          }}
+        />
+      </div>
+      <div className="w-[500px] pl-3">
+        <div className="w-full">
+          <Tabs defaultValue="typography" key={currentFrame}>
+            <TabsList
+              defaultValue="typography"
+              className="w-full flex justify-around items-center"
+            >
+              <TabsTrigger value="typography">
+                <Icons.typography className="h-4 w-4" />
+              </TabsTrigger>
+              <TabsTrigger value="ratio">
+                <Icons.screenSize className="h-4 w-4" />
+              </TabsTrigger>
+              <TabsTrigger value="background">
+                <Icons.mediaAssets className="h-4 w-4"/>
+              </TabsTrigger>
+              <TabsTrigger value="animation">
+                <Icons.magicWand className="h-4 w-4" />
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="typography">
+              <TypographyMenu
+                currentFrame={currentFrame}
+                frames={frames}
+                setFrames={setFrames}
+              />
+            </TabsContent>
+            <TabsContent value="ratio">
+              <AspectRatioMenu />
+            </TabsContent>
+            <TabsContent value="background">
+              <div className="w-full">
+                <h3 className="text-base font-semibold my-4 text-center">
+                  Coming soon!
+                </h3>
+              </div>
+            </TabsContent>
+            <TabsContent value="animation">
+              <AnimationMenu
+                currentFrame={currentFrame}
+                frames={frames}
+                setFrames={setFrames}
+              />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

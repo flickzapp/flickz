@@ -13,6 +13,7 @@ export default function AlignMentButtonContainer({ handleChange }: any) {
         <Tooltip>
           <TooltipTrigger>
             <Icons.alignLeft
+              className="h-5 w-5"
               onClick={() => handleChange("align", "text-left")}
             />
           </TooltipTrigger>
@@ -25,6 +26,7 @@ export default function AlignMentButtonContainer({ handleChange }: any) {
         <Tooltip>
           <TooltipTrigger>
             <Icons.alignJustify
+              className="h-5 w-5"
               onClick={() => handleChange("align", "text-justify")}
             />
           </TooltipTrigger>
@@ -37,6 +39,7 @@ export default function AlignMentButtonContainer({ handleChange }: any) {
         <Tooltip>
           <TooltipTrigger>
             <Icons.alignCenter
+              className="h-5 w-5"
               onClick={() => handleChange("align", "text-center")}
             />
           </TooltipTrigger>
@@ -49,6 +52,7 @@ export default function AlignMentButtonContainer({ handleChange }: any) {
         <Tooltip>
           <TooltipTrigger>
             <Icons.alignRight
+              className="h-5 w-5"
               onClick={() => handleChange("align", "text-right")}
             />
           </TooltipTrigger>

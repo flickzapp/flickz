@@ -40,10 +40,10 @@ export default function TypographyMenu({
   return (
     <div className="flex flex-col w-full space-y-6">
       <div className="flex justify-between items-center ">
-        <h3 className="text-lg font-semibold my-4">Typography</h3>
+        <h3 className="text-base font-semibold my-4">Typography</h3>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Icons.horizontalEllipsis />
+            <Icons.horizontalEllipsis className="h-5 w-5"/>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
@@ -103,10 +103,10 @@ export default function TypographyMenu({
       </div>
       <AlignMentButtonContainer handleChange={handlePropertyChange} />
       <div className="flex justify-between items-center ">
-        <h3 className="text-lg font-semibold my-4">Background Fill</h3>
+        <h3 className="text-base font-semibold my-4">Background Fill</h3>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Icons.horizontalEllipsis />
+            <Icons.horizontalEllipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Apply To All frames</DropdownMenuItem>

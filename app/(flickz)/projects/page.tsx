@@ -1,4 +1,3 @@
-import ContentWrapper from "@/components/shared/ContentWrapper";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
@@ -29,18 +28,18 @@ export default async function ProjectsPage() {
 
   if (projects.length === 0) {
     return (
-      <ContentWrapper>
+      <>
         <h1 className="text-3xl font-extrabold">
           Create Your First Project Here!
         </h1>
         <Link href="/create">
           <Button>+ Project</Button>
         </Link>
-      </ContentWrapper>
+      </>
     );
   }
   return (
-    <ContentWrapper>
+    <>
       <div className="flex justify-between items-center w-full">
         <h1 className="text-3xl font-semibold">Projects</h1>
         <Link href="/create">
@@ -82,6 +81,6 @@ export default async function ProjectsPage() {
           </Link>
         ))}
       </div>
-    </ContentWrapper>
+    </>
   );
 }

@@ -50,5 +50,5 @@ export default async function EditorPageWrap({
     },
   });
   // @ts-ignore
-  return <Editor defaultFrames={frames} />;
+  return <Editor defaultFrames={frames} projectId={projectId} />;
 }

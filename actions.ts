@@ -74,4 +74,150 @@ export async function createProjectAction(title: string, description: string) {
   return project;
 }
 
-export async function updateFramesAction(projectId: string, frames: any) {}
+export async function updateFramesAction(projectId: string, frames: any) {
+  const session = await getServerSession(authOptions);
+  const project = await db.project.findFirst({
+    where: {
+      id: projectId,
+      user: {
+        id: session?.user.id,
+      },
+    },
+  });
+  if (!project) {
+    throw new Error("Project not found");
+  }
+  /*
+    2 choices to deal with the situation:
+    
+    1) Get all existing frames. For each existing frame update all the related properties, 
+     if the frame doesn't exist, then we create a new frame.
+     If the frame is present in existing frames but not in frames, then we delete those frames
+    2) Delete all existing frames and create new frames
+  */
+  const existingFrames = await db.frame.findMany({
+    where: {
+      projectId: projectId,
+    },
+  });
+  type ExistingFrameIdsType = {
+    [key: string]: boolean;
+  };
+  const existingFrameIds: ExistingFrameIdsType = {};
+  for (const frame of existingFrames) {
+    existingFrameIds[frame.id] = false;
+  }
+  const promises = [];
+  const deletePromises = [];
+  for (const frame of frames) {
+    const {
+      index,
+      duration,
+      text,
+      entryAnimate,
+      exitAnimate,
+      fontFamily,
+      fontSize,
+      fontWeight,
+      fontColor,
+      backgroundColor,
+      align,
+      backgroundImgLink,
+      backgroundVideoLink,
+    } = frame;
+    if (frame.id) {
+      promises.push(
+        db.frame.update({
+          where: {
+            id: frame.id,
+          },
+          data: {
+            index,
+            duration,
+            text,
+            entryAnimate,
+            exitAnimate,
+            fontFamily,
+            fontSize,
+            fontWeight,
+            fontColor,
+            backgroundColor,
+            backgroundImgLink,
+            backgroundVideoLink,
+            align,
+          },
+        })
+      );
+      existingFrameIds[frame.id] = true;
+    } else {
+      promises.push(
+        db.frame.create({
+          data: {
+            index,
+            duration,
+            text,
+            entryAnimate,
+            exitAnimate,
+            fontFamily,
+            fontSize,
+            fontWeight,
+            fontColor,
+            backgroundColor,
+            backgroundImgLink,
+            backgroundVideoLink,
+            align,
+            project: {
+              connect: {
+                id: projectId,
+              },
+            },
+          },
+        })
+      );
+    }
+  }
+  for (const frame of existingFrames) {
+    if (!existingFrameIds[frame.id]) {
+      deletePromises.push(
+        db.frame.delete({
+          where: {
+            id: frame.id,
+          },
+        })
+      );
+    }
+  }
+  await Promise.all(deletePromises);
+  const new_frames = await Promise.all(promises);
+  const newDescription = frames.map((item: any) => item.text).join(" ");
+  await db.project.update({
+    where: {
+      id: projectId,
+    },
+    data: {
+      description: newDescription,
+    },
+  });
+  return new_frames;
+}
+
+export async function deleteProjectAction(projectId: string) {
+  const session = await getServerSession(authOptions);
+  const project = await db.project.findFirst({
+    where: {
+      id: projectId,
+      user: {
+        id: session?.user.id,
+      },
+    },
+  });
+  if (!project) {
+    throw new Error("Project not found");
+  }
+  await db.project.delete({
+    where: {
+      id: projectId,
+    },
+  });
+  return project;
+}

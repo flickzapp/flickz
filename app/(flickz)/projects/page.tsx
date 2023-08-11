@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
+import { deleteProjectAction } from "@/actions";
+import ProjectDeleteButton from "./ProjectDeleteButton";
+import { Card } from "@/components/ui/card";
 export default async function ProjectsPage() {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -50,34 +54,36 @@ export default async function ProjectsPage() {
       <div className="my-8 w-full flex flex-col gap-4">
         {projects.map((project) => (
           <Link href={`/projects/${project.id}`} key={project.id}>
-            <div className="flex items-center justify-between p-4 bg-slate-100 rounded-md cursor-pointer">
-              <div className="flex items-center gap-4">
-                <Icons.logo />
-                <div className="flex flex-col gap-2">
-                  <h2 className="text-xl font-semibold">{project.name}</h2>
-                  <p className="text-gray-500 line-clamp-1 max-w-xl md:max-w-4xl">
-                    {project.description}
-                  </p>
+            <Card>
+              <div className="flex items-center justify-between p-4 rounded-md cursor-pointer">
+                <div className="flex items-center gap-4">
+                  <Icons.logo />
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold">{project.name}</h2>
+                    <p className="text-gray-500 line-clamp-1 max-w-xl md:max-w-4xl">
+                      {project.description}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4 items-center">
+                  <div className="text-gray-500">
+                    {`Last Edited ${project.updatedAt.toLocaleDateString()}`}
+                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Button variant="ghost">
+                        <Icons.horizontalEllipsis />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <ProjectDeleteButton projectId={project.id} />
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </div>
-              <div className="flex gap-4 items-center">
-                <div className="text-gray-500">
-                  {`Last Edited ${project.updatedAt.toLocaleDateString()}`}
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Button variant="ghost">
-                      <Icons.horizontalEllipsis />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Button variant="ghost">Delete</Button>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
+            </Card>
           </Link>
         ))}
       </div>

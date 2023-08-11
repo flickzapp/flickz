@@ -12,6 +12,7 @@ import AspectRatioMenu from "./AspectRatioMenu";
 import AnimationMenu from "./AnimationMenu";
 import { Icons } from "@/components/icons";
 import { updateFramesAction } from "@/actions";
+import { Card } from "@/components/ui/card";
 
 const fps = 60;
 export default function Editor({
@@ -118,74 +119,76 @@ export default function Editor({
       <div className="flex flex-col w-[600px]">
         <ScrollArea className="h-[80vh] p-4 dark:text-black">
           {frames.map((frame, index) => (
-            <div
+            <Card
               key={`${frame.text}-${index}`}
-              className={`mb-3 p-2 bg-slate-50 rounded-md cursor-pointer transition ease-linear ${
+              className={`mb-3 p-2 rounded-md cursor-pointer transition ease-linear ${
                 currentFrame === index ? "border-2 scale-100" : " scale-75"
               }`}
               onClick={() => handleClick(index)}
             >
-              {currentFrame === index ? (
-                <>
-                  <Textarea
-                    value={currentFrameContent}
-                    onChange={(e) => {
-                      setCurrentFrameContent(e.target.value);
-                      setEdited(true);
-                      e.stopPropagation();
-                    }}
-                    className="border-none rounded-lg resize-none outline-none"
-                  />
-                  <div className="flex items-center justify-end">
-                    <Button
-                      variant="ghost"
-                      onClick={(e) => {
-                        moveUp(index);
+              <div>
+                {currentFrame === index ? (
+                  <>
+                    <Textarea
+                      value={currentFrameContent}
+                      onChange={(e) => {
+                        setCurrentFrameContent(e.target.value);
+                        setEdited(true);
                         e.stopPropagation();
                       }}
-                      disabled={index === 0 ? true : false}
-                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
-                    >
-                      <Icons.moveUp className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={(e) => {
-                        moveDown(index);
-                        e.stopPropagation();
-                      }}
-                      disabled={index === frames.length - 1 ? true : false}
-                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
-                    >
-                      <Icons.moveDown className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={(e) => {
-                        addNewFrame(index);
-                        e.stopPropagation();
-                      }}
-                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
-                    >
-                      <Icons.plusIcon className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={(e) => {
-                        deleteFrame(index);
-                        e?.stopPropagation();
-                      }}
-                      disabled={frames.length === 1 ? true : false}
-                      className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
-                    >
-                      <Icons.trash className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <p className="bg-transparent p-4">{frame.text}</p>
-              )}
-            </div>
+                      className="border-none rounded-lg resize-none outline-none"
+                    />
+                    <div className="flex items-center justify-end">
+                      <Button
+                        variant="ghost"
+                        onClick={(e) => {
+                          moveUp(index);
+                          e.stopPropagation();
+                        }}
+                        disabled={index === 0 ? true : false}
+                        className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
+                      >
+                        <Icons.moveUp className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={(e) => {
+                          moveDown(index);
+                          e.stopPropagation();
+                        }}
+                        disabled={index === frames.length - 1 ? true : false}
+                        className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
+                      >
+                        <Icons.moveDown className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={(e) => {
+                          addNewFrame(index);
+                          e.stopPropagation();
+                        }}
+                        className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
+                      >
+                        <Icons.plusIcon className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={(e) => {
+                          deleteFrame(index);
+                          e?.stopPropagation();
+                        }}
+                        disabled={frames.length === 1 ? true : false}
+                        className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
+                      >
+                        <Icons.trash className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <p className="bg-transparent p-4">{frame.text}</p>
+                )}
+              </div>
+            </Card>
           ))}
         </ScrollArea>
         <Button className="w-full" onClick={() => addNewFrame(-1)}>

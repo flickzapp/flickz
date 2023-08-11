@@ -1,7 +1,6 @@
 "use client";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
 import { Player, PlayerRef } from "@remotion/player";
 import InteractivePlayer from "./InteractivePlayer";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -13,6 +12,7 @@ import AnimationMenu from "./AnimationMenu";
 import { Icons } from "@/components/icons";
 import { updateFramesAction } from "@/actions";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 const fps = 60;
 export default function Editor({
@@ -29,6 +29,10 @@ export default function Editor({
     frames[0].text
   );
   const [edited, setEdited] = useState(false);
+  const [compositionDimensions, setCompositionDimensions] = useState({
+    height: 1080,
+    width: 1920,
+  });
 
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
@@ -116,8 +120,8 @@ export default function Editor({
 
   return (
     <div className="flex gap-4 justify-between">
-      <div className="flex flex-col w-[600px]">
-        <ScrollArea className="h-[80vh] p-4 dark:text-black">
+      <div className="flex-1">
+        <ScrollArea className="h-[80vh] p-4">
           {frames.map((frame, index) => (
             <Card
               key={`${frame.text}-${index}`}
@@ -129,7 +133,7 @@ export default function Editor({
               <div>
                 {currentFrame === index ? (
                   <>
-                    <Textarea
+                    <Input
                       value={currentFrameContent}
                       onChange={(e) => {
                         setCurrentFrameContent(e.target.value);
@@ -196,17 +200,22 @@ export default function Editor({
         </Button>
       </div>
 
-      <div className="flex flex-grow flex-shrink">
+      <div className="w-[60%]">
         <Player
           component={InteractivePlayer}
           ref={playerRef}
           durationInFrames={
             frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
           }
-          className="rounded-lg flex-1 h-full w-full"
+          style={{
+            width: "100%",
+            height: "84%",
+            borderRadius: "10px",
+            marginTop: "50px",
+          }}
           fps={fps}
-          compositionHeight={600}
-          compositionWidth={900}
+          compositionHeight={compositionDimensions.height}
+          compositionWidth={compositionDimensions.width}
           loop={true}
           controls={true}
           autoPlay={true}
@@ -217,52 +226,52 @@ export default function Editor({
           }}
         />
       </div>
-      <div className="w-[500px] pl-3">
-        <div className="w-full">
-          <Tabs defaultValue="typography" key={currentFrame}>
-            <TabsList
-              defaultValue="typography"
-              className="w-full flex justify-around items-center"
-            >
-              <TabsTrigger value="typography">
-                <Icons.typography className="h-4 w-4" />
-              </TabsTrigger>
-              <TabsTrigger value="ratio">
-                <Icons.screenSize className="h-4 w-4" />
-              </TabsTrigger>
-              <TabsTrigger value="background">
-                <Icons.mediaAssets className="h-4 w-4" />
-              </TabsTrigger>
-              <TabsTrigger value="animation">
-                <Icons.magicWand className="h-4 w-4" />
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="typography">
-              <TypographyMenu
-                currentFrame={currentFrame}
-                frames={frames}
-                setFrames={setFrames}
-              />
-            </TabsContent>
-            <TabsContent value="ratio">
-              <AspectRatioMenu />
-            </TabsContent>
-            <TabsContent value="background">
-              <div className="w-full">
-                <h3 className="text-base font-semibold my-4 text-center">
-                  Coming soon!
-                </h3>
-              </div>
-            </TabsContent>
-            <TabsContent value="animation">
-              <AnimationMenu
-                currentFrame={currentFrame}
-                frames={frames}
-                setFrames={setFrames}
-              />
-            </TabsContent>
-          </Tabs>
-        </div>
+      <div className="flex-1">
+        <Tabs defaultValue="typography" key={currentFrame}>
+          <TabsList
+            defaultValue="typography"
+            className="w-full flex justify-around items-center"
+          >
+            <TabsTrigger value="typography">
+              <Icons.typography className="h-4 w-4" />
+            </TabsTrigger>
+            <TabsTrigger value="ratio">
+              <Icons.screenSize className="h-4 w-4" />
+            </TabsTrigger>
+            <TabsTrigger value="background">
+              <Icons.mediaAssets className="h-4 w-4" />
+            </TabsTrigger>
+            <TabsTrigger value="animation">
+              <Icons.magicWand className="h-4 w-4" />
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="typography">
+            <TypographyMenu
+              currentFrame={currentFrame}
+              frames={frames}
+              setFrames={setFrames}
+            />
+          </TabsContent>
+          <TabsContent value="ratio">
+            <AspectRatioMenu
+              setCompositionDimensions={setCompositionDimensions}
+            />
+          </TabsContent>
+          <TabsContent value="background">
+            <div className="w-full">
+              <h3 className="text-base font-semibold my-4 text-center">
+                Coming soon!
+              </h3>
+            </div>
+          </TabsContent>
+          <TabsContent value="animation">
+            <AnimationMenu
+              currentFrame={currentFrame}
+              frames={frames}
+              setFrames={setFrames}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

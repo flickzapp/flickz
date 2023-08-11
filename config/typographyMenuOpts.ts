@@ -50,3 +50,5 @@ export const fontWeights = [
     value: "font-extrabold",
   },
 ];
+
+

@@ -16,6 +16,7 @@ import {
 import AlignMentButtonContainer from "./AlignMentButtonContainer";
 import { fontSizes, fontWeights, fonts } from "@/config/typographyMenuOpts";
 import { Icons } from "@/components/icons";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface TypographyMenuInterface {
   currentFrame: number;
@@ -43,7 +44,7 @@ export default function TypographyMenu({
         <h3 className="text-base font-semibold my-4">Typography</h3>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Icons.horizontalEllipsis className="h-5 w-5"/>
+            <Icons.horizontalEllipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
@@ -92,11 +93,13 @@ export default function TypographyMenu({
               <SelectValue placeholder="Font-Size" />
             </SelectTrigger>
             <SelectContent>
-              {fontSizes.map((font) => (
-                <SelectItem value={font.value} key={font.value}>
-                  {font.name}
-                </SelectItem>
-              ))}
+              <ScrollArea className="h-48">
+                {fontSizes.map((font) => (
+                  <SelectItem value={font.value} key={font.value}>
+                    {font.name}
+                  </SelectItem>
+                ))}
+              </ScrollArea>
             </SelectContent>
           </Select>
         </div>

@@ -78,11 +78,11 @@ function FrameRenderer({
     },
   };
   return (
-    <div className="flex items-center justify-center bg-black w-full h-full">
+    <div className="flex items-center justify-center bg-black w-full h-full rounded-3xl">
       <div
         className={` text-white font-${ipframe.fontFamily} ${ipframe.align} ${
           ipframe.fontWeight || "font-bold"
-        } ${ipframe.fontSize || "text-3xl"}`}
+        } ${ipframe.fontSize || "text-9xl"}`}
         // @ts-ignore
         style={{
           ...animate[ipframe.entryAnimate || "none"],

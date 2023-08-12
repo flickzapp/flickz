@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { UserAccountNav } from "@/components/user-account-nav";
 import AppNav from "@/components/app-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Toaster } from "@/components/ui/toaster";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -34,6 +35,7 @@ export default async function FlickzLayout({ children }: DashboardLayoutProps) {
         </div>
       </header>
       <main className="overflow-hidden px-4">{children}</main>
+      <Toaster />
     </div>
   );
 }

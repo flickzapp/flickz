@@ -34,7 +34,6 @@ export default function Editor({
     height: 1080,
     width: 1920,
   });
-  console.log(defaultFrames);
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];

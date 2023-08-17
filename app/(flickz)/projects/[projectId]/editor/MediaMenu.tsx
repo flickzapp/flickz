@@ -11,6 +11,7 @@ import { UploadDropzone } from "@/lib/uploadThing";
 import { toast } from "@/components/ui/use-toast";
 import "@uploadthing/react/styles.css";
 import { useState } from "react";
+import Image from "next/image";
 interface MediaMenuInterface {
   currentFrame: number;
   frames: frameInputType[];
@@ -67,10 +68,11 @@ export default function MediaMenu({
       {frames[currentFrame].backgroundImgLink && (
         <>
           <h2>Preview Image</h2>
-
-          <img
-            src={frames[currentFrame].backgroundImgLink}
-            className=" h-[200px] m-4"
+          <Image
+            src={frames[currentFrame].backgroundImgLink as string}
+            height={200}
+            width={200}
+            alt="preview image"
           />
         </>
       )}

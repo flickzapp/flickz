@@ -80,7 +80,7 @@ function FrameRenderer({
     },
   };
   return (
-    <div
+    <AbsoluteFill
       className={`flex items-center justify-center w-full h-full relative ${
         !ipframe?.backgroundImgLink && "bg-black"
       }`}
@@ -116,7 +116,7 @@ function FrameRenderer({
       >
         {currentFrame ? currentFrameText : ipframe.text}
       </div>
-    </div>
+    </AbsoluteFill>
   );
 }
 

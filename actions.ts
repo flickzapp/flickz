@@ -221,3 +221,32 @@ export async function deleteProjectAction(projectId: string) {
   });
   return project;
 }
+
+export async function updateProjectAction(
+  projectId: string,
+  projectData: EditorProjectType
+) {
+  const session = await getServerSession(authOptions);
+  const project = await db.project.findFirst({
+    where: {
+      id: projectId,
+      user: {
+        id: session?.user.id,
+      },
+    },
+  });
+  if (!project) {
+    throw new Error("Project not found");
+  }
+  const updatedProject = await db.project.update({
+    where: {
+      id: projectId,
+    },
+    data: {
+      name: projectData.name,
+      aspectRatio: projectData.aspectRatio,
+      audioLink: projectData.audioLink,
+    },
+  });
+  return updatedProject;
+}

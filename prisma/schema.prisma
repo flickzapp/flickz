@@ -85,7 +85,7 @@ model Frame {
   entryAnimate        String   @default("none")
   exitAnimate         String   @default("none")
   fontFamily          String   @default("inter")
-  fontSize            String   @default("text-2xl")
+  fontSize            String   @default("text-9xl")
   fontWeight          String   @default("font-bold")
   fontColor           String   @default("#FFF")
   backgroundColor     String   @default("#000")

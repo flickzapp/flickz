@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -65,6 +65,9 @@ dependencies:
   '@remotion/cli':
     specifier: ^4.0.15
     version: 4.0.15(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/google-fonts':
+    specifier: ^4.0.19
+    version: 4.0.19(react-dom@18.2.0)(react@18.2.0)
   '@remotion/player':
     specifier: ^4.0.15
     version: 4.0.15(react-dom@18.2.0)(react@18.2.0)
@@ -1702,6 +1705,15 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@remotion/google-fonts@4.0.19(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-hTqOKFVc5JqC2YYje6RH8kBOxSkjl4TUWW1RH31YBqjbaMaxlF8OWi+pyxSYW9pN2JSbf4JT0WopmEbY6UKPIQ==}
+    dependencies:
+      remotion: 4.0.19(react-dom@18.2.0)(react@18.2.0)
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
 
   /@remotion/media-utils@4.0.15(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-j2DX/8jja3bZ38KlxOx9Gjgtc6ceEZc+jfOv3rFnbLIcrMR9iL//dg1M+1kAKgFU71hccKpbF00HCPfZKcideA==}
@@ -4722,6 +4734,16 @@ packages:
 
   /remotion@4.0.15(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-4hJNUJc+CtQI7IBFaUnUq2kdl6WstLoSSrJnJbo6Fj24HEkpYKmey9urxNET9GnTTmv9uWHJXQeKsTAfEX7NLQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /remotion@4.0.19(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-lmcL/kieZn3v0l3eiH0DWzYw5vJmr207YTNGeilyxBoXVNAKqp/UDBdqoFfb1m3NXlMtTEPk4M89Mk8WT2A7oA==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'

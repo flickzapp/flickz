@@ -226,31 +226,30 @@ export default function Editor({
         </Button>
       </div>
 
-      <div className="w-[60%]">
-        <Player
-          component={InteractivePlayer}
-          ref={playerRef}
-          durationInFrames={
-            frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
-          }
-          style={{
-            width: "100%",
-            height: "84%",
-            borderRadius: "10px",
-            marginTop: "50px",
-          }}
-          fps={fps}
-          compositionHeight={compositionDimensions.height}
-          compositionWidth={compositionDimensions.width}
-          loop={true}
-          controls={true}
-          autoPlay={true}
-          inputProps={{
-            frames: frames,
-            currentFrame: currentFrame,
-            currentFrameText: currentFrameContent,
-          }}
-        />
+      <div className="w-[60%] m-auto">
+        <div className="overflow-hidden rounded-[20px]">
+          <Player
+            component={InteractivePlayer}
+            ref={playerRef}
+            durationInFrames={
+              frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
+            }
+            style={{
+              width: "100%",
+              maxHeight: "80vh",
+            }}
+            fps={fps}
+            compositionHeight={compositionDimensions.height}
+            compositionWidth={compositionDimensions.width}
+            loop={true}
+            controls={true}
+            inputProps={{
+              frames: frames,
+              currentFrame: currentFrame,
+              currentFrameText: currentFrameContent,
+            }}
+          />
+        </div>
       </div>
       <div className="flex-1">
         <Tabs defaultValue="typography" key={currentFrame}>

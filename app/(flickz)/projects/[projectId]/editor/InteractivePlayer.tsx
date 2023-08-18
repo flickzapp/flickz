@@ -81,7 +81,7 @@ function FrameRenderer({
   };
   return (
     <AbsoluteFill
-      className={`flex items-center justify-center w-full h-full relative ${
+      className={`flex items-center justify-center w-full h-full relative rounded-3xl ${
         !ipframe?.backgroundImgLink && "bg-black"
       }`}
     >
@@ -106,7 +106,7 @@ function FrameRenderer({
         className={`z-10 text-white font-${ipframe.fontFamily} ${
           ipframe.align
         } ${ipframe.fontWeight || "font-bold"} ${
-          ipframe.fontSize || "text-3xl"
+          ipframe.fontSize || "text-9xl"
         }`}
         // @ts-ignore
         style={{

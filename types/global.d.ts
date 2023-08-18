@@ -4,9 +4,9 @@ type frameInputType = {
   index: number;
   duration: number;
   entryAnimate: "grow" | "none" | "moveUp" | "slideFromRight";
-  fontFamily?: "inter" | "roboto" | "poppins" | "notosans";
+  fontFamily?: string;
   fontWeight?: "font-bold" | "font-normal" | "font-semibold" | "font-extrabold";
-  fontSize?: "text-lg" | "text-xl" | "text-2xl" | "text-3xl";
+  fontSize?: string;
   align?: "text-left" | "text-center" | "text-right" | "text-justify";
   exitAnimate?: "fadeOut" | "shrink" | "none";
   backgroundColor?: string;

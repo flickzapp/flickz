@@ -68,7 +68,7 @@ model Project {
   userId      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  aspectRatio String?
+  aspectRatio String?  @default("16:9")
   audioLink   String?
   Frame       Frame[]
 

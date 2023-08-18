@@ -16,6 +16,7 @@ export default async function EditorPageWrap({
     select: {
       id: true,
       name: true,
+      aspectRatio: true,
     },
   });
 
@@ -49,6 +50,8 @@ export default async function EditorPageWrap({
       index: "asc",
     },
   });
-  // @ts-ignore
-  return <Editor defaultFrames={frames} projectId={projectId} />;
+  return (
+    // @ts-ignore
+    <Editor defaultFrames={frames} project={project} />
+  );
 }

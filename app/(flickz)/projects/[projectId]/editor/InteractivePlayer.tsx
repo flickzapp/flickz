@@ -6,6 +6,8 @@ import {
   useCurrentFrame,
   useVideoConfig,
   interpolate,
+  AbsoluteFill,
+  Img,
 } from "remotion";
 
 function FrameRenderer({
@@ -78,11 +80,34 @@ function FrameRenderer({
     },
   };
   return (
-    <div className="flex items-center justify-center bg-black w-full h-full rounded-3xl">
+    <AbsoluteFill
+      className={`flex items-center justify-center w-full h-full relative ${
+        !ipframe?.backgroundImgLink && "bg-black"
+      }`}
+    >
+      {(ipframe.backgroundImgLink || ipframe.backgroundVideoLink) && (
+        <div className="absolute z-0 left-0 top-0 h-full w-full">
+          <AbsoluteFill>
+            {ipframe.backgroundImgLink && (
+              <Img
+                style={{
+                  width: "100%",
+                  objectFit: "cover",
+                  height: "100%",
+                }}
+                src={ipframe.backgroundImgLink}
+              />
+            )}
+          </AbsoluteFill>
+        </div>
+      )}
+
       <div
-        className={` text-white font-${ipframe.fontFamily} ${ipframe.align} ${
-          ipframe.fontWeight || "font-bold"
-        } ${ipframe.fontSize || "text-9xl"}`}
+        className={`z-10 text-white font-${ipframe.fontFamily} ${
+          ipframe.align
+        } ${ipframe.fontWeight || "font-bold"} ${
+          ipframe.fontSize || "text-3xl"
+        }`}
         // @ts-ignore
         style={{
           ...animate[ipframe.entryAnimate || "none"],
@@ -91,7 +116,7 @@ function FrameRenderer({
       >
         {currentFrame ? currentFrameText : ipframe.text}
       </div>
-    </div>
+    </AbsoluteFill>
   );
 }
 

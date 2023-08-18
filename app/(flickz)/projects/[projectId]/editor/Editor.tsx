@@ -10,17 +10,20 @@ import TypographyMenu from "./TypographyMenu";
 import AspectRatioMenu from "./AspectRatioMenu";
 import AnimationMenu from "./AnimationMenu";
 import { Icons } from "@/components/icons";
-import { updateFramesAction } from "@/actions";
+import { updateFramesAction, updateProjectAction } from "@/actions";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import MediaMenu from "./MediaMenu";
+import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
+import { useRouter } from "next/navigation";
 
 const fps = 60;
 export default function Editor({
   defaultFrames,
-  projectId,
+  project,
 }: {
   defaultFrames: frameInputType[];
-  projectId: string;
+  project: EditorProjectType;
 }) {
   const [frames, setFrames] = useState<frameInputType[]>(defaultFrames);
   const playerRef = useRef<PlayerRef>(null);
@@ -33,7 +36,7 @@ export default function Editor({
     height: 1080,
     width: 1920,
   });
-
+  const router = useRouter();
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];
@@ -106,10 +109,33 @@ export default function Editor({
     if (edited) {
       let tempFrames = [...frames];
       tempFrames[currentFrame].text = `${currentFrameContent}`;
-      await updateFramesAction(projectId, tempFrames);
+      await updateFramesAction(project.id, tempFrames);
       setEdited(false);
     }
   }, [edited]);
+
+  const saveProjectMetaChanges = async ({
+    aspectRatio,
+    audioLink,
+  }: {
+    aspectRatio?: string;
+    audioLink?: string;
+  }) => {
+    let newProjectData = {
+      ...project,
+      aspectRatio: aspectRatio,
+      audioLink: audioLink,
+    };
+    await updateProjectAction(project.id, newProjectData);
+    router.refresh();
+  };
+
+  useEffect(() => {
+    if (project.aspectRatio) {
+      const newDimensions = getDimensionsForAspectRatio(project.aspectRatio);
+      setCompositionDimensions(newDimensions);
+    }
+  }, [project]);
 
   useEffect(() => {
     const autoSave = setInterval(() => {
@@ -253,15 +279,22 @@ export default function Editor({
           </TabsContent>
           <TabsContent value="ratio">
             <AspectRatioMenu
+              aspectRatio={project.aspectRatio}
+              saveProjectMetaChanges={saveProjectMetaChanges}
               setCompositionDimensions={setCompositionDimensions}
             />
           </TabsContent>
           <TabsContent value="background">
-            <div className="w-full">
+            {/* <div className="w-full">
               <h3 className="text-base font-semibold my-4 text-center">
                 Coming soon!
               </h3>
-            </div>
+            </div> */}
+            <MediaMenu
+              currentFrame={currentFrame}
+              frames={frames}
+              setFrames={setFrames}
+            />
           </TabsContent>
           <TabsContent value="animation">
             <AnimationMenu

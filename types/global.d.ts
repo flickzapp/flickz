@@ -15,3 +15,11 @@ type frameInputType = {
   backgroundImgLink?: string;
   backgroundVideoLink?: string;
 };
+
+// the type of project used in editor
+type EditorProjectType = {
+  id: string;
+  name: string;
+  aspectRatio?: string;
+  audioLink?: string;
+};

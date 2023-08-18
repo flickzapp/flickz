@@ -10,19 +10,35 @@ import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
 import { useState } from "react";
 
 interface AspectRatioMenuProps {
+  aspectRatio?: string;
+  saveProjectMetaChanges: (value: {
+    aspectRatio?: string;
+    audioLink?: string;
+  }) => void;
   setCompositionDimensions: (value: { width: number; height: number }) => void;
 }
 
+const MapAspectRatioToIcons: {
+  [key: string]: JSX.Element;
+} = {
+  "16:9": <Icons.monitor className="h-5 w-5" />,
+  "4:3": <Icons.square className="h-5 w-5" />,
+  "1:1": <Icons.smartphone className="h-5 w-5" />,
+  "4:5": <Icons.smartphone className="h-5 w-5" />,
+  "9:16": <Icons.smartphone className="h-5 w-5" />,
+};
+
 export default function AspectRatioMenu({
+  aspectRatio,
+  saveProjectMetaChanges,
   setCompositionDimensions,
 }: AspectRatioMenuProps) {
-  const [aspectRatio, setAspectRatio] = useState("16:9");
-
   const handleAspectRatioChange = (newAspectRatio: string) => {
-    setAspectRatio(newAspectRatio);
     const newDimensions = getDimensionsForAspectRatio(newAspectRatio);
     setCompositionDimensions(newDimensions);
+    saveProjectMetaChanges({ aspectRatio: newAspectRatio });
   };
+
   return (
     <div className="flex flex-col w-full space-y-6">
       <div className="flex justify-between items-center">
@@ -32,42 +48,22 @@ export default function AspectRatioMenu({
         <SelectTrigger className="w-full">
           <SelectValue>
             <div className="flex gap-4 items-center">
-              <Icons.monitor className="h-5 w-5" />
+              {(aspectRatio && MapAspectRatioToIcons[aspectRatio]) || (
+                <Icons.monitor className="h-5 w-5" />
+              )}
               <span>{aspectRatio}</span>
             </div>
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="16:9">
-            <div className="flex gap-4 justify-start">
-              <Icons.monitor className="h-5 w-5" />
-              <span>16:9</span>
-            </div>
-          </SelectItem>
-          <SelectItem value="4:3">
-            <div className="flex gap-4">
-              <Icons.square className="h-5 w-5" />
-              <span>4:3</span>
-            </div>
-          </SelectItem>
-          <SelectItem value="1:1">
-            <div className="flex gap-4">
-              <Icons.smartphone className="h-5 w-5" />
-              <span>1:1</span>
-            </div>
-          </SelectItem>
-          <SelectItem value="4:5">
-            <div className="flex gap-4">
-              <Icons.smartphone className="h-5 w-5" />
-              <span>4:5</span>
-            </div>
-          </SelectItem>
-          <SelectItem value="9:16">
-            <div className="flex gap-4">
-              <Icons.smartphone className="h-5 w-5" />
-              <span>9:16</span>
-            </div>
-          </SelectItem>
+          {Object.keys(MapAspectRatioToIcons).map((key) => (
+            <SelectItem value={key} key={key}>
+              <div className="flex gap-4">
+                {MapAspectRatioToIcons[key]}
+                <span>{key}</span>
+              </div>
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
       <div className="flex justify-between items-center ">

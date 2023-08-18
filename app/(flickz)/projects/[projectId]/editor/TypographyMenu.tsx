@@ -38,6 +38,8 @@ export default function TypographyMenu({
     setFrames(newFrames);
   };
 
+  // console.log("frames[currentFrame].fontSize", frames[currentFrame].fontSize)
+
   return (
     <div className="flex flex-col w-full space-y-6">
       <div className="flex justify-between items-center ">

@@ -45,7 +45,7 @@ export default function Home() {
       <section id="open-source" className="container py-8 md:py-12 lg:py-24">
         <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl font-semibold">
-            proudly open-source
+            {`we're open-source :)`}
           </h2>
           <p className="max-w-[85%] leading-normal text-gray-400 sm:text-lg sm:leading-7 my-6">
             our source code is available on github - feel free to read, review,{" "}

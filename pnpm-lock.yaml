@@ -71,6 +71,9 @@ dependencies:
   '@remotion/google-fonts':
     specifier: ^4.0.19
     version: 4.0.19(react-dom@18.2.0)(react@18.2.0)
+  '@remotion/media-utils':
+    specifier: 4.0.15
+    version: 4.0.15(react-dom@18.2.0)(react@18.2.0)
   '@remotion/player':
     specifier: ^4.0.15
     version: 4.0.15(react-dom@18.2.0)(react@18.2.0)

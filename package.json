@@ -31,6 +31,7 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "@remotion/cli": "^4.0.15",
     "@remotion/google-fonts": "^4.0.19",
+    "@remotion/media-utils": "4.0.15",
     "@remotion/player": "^4.0.15",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@types/node": "20.4.5",

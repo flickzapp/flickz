@@ -17,6 +17,8 @@ import AlignMentButtonContainer from "./AlignMentButtonContainer";
 import { fontSizes, fontWeights, fonts } from "@/config/typographyMenuOpts";
 import { Icons } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ColorPicker } from "@/components/color-picker";
+import { useState } from "react";
 
 interface TypographyMenuInterface {
   currentFrame: number;
@@ -28,6 +30,8 @@ export default function TypographyMenu({
   frames,
   setFrames,
 }: TypographyMenuInterface) {
+  const [background, setBackground] = useState("#000000");
+  const [fontColor, setFontColor] = useState("#FFFFFF");
   const handlePropertyChange = (fieldKey: string, newVal: string) => {
     let newFrames = frames.map((frame: any, index: number) => {
       if (index === currentFrame) {
@@ -108,7 +112,7 @@ export default function TypographyMenu({
       </div>
       <AlignMentButtonContainer handleChange={handlePropertyChange} />
       <div className="flex justify-between items-center ">
-        <h3 className="text-base font-semibold my-4">Background Fill</h3>
+        <h3 className="text-base font-semibold mt-4">Background Fill</h3>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Icons.horizontalEllipsis className="h-5 w-5" />
@@ -118,14 +122,31 @@ export default function TypographyMenu({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Select>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Solid" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="solid">Solid</SelectItem>
-        </SelectContent>
-      </Select>
+      <ColorPicker
+        background={background}
+        setBackground={(newBackground) => {
+          setBackground(newBackground);
+          handlePropertyChange("backgroundColor", newBackground);
+        }}
+      />
+      <div className="flex justify-between items-center ">
+        <h3 className="text-base font-semibold mt-4">Text Fill</h3>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Icons.horizontalEllipsis className="h-5 w-5" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <ColorPicker
+        background={fontColor}
+        setBackground={(newFontColor) => {
+          setFontColor(newFontColor);
+          handlePropertyChange("fontColor", newFontColor);
+        }}
+      />
     </div>
   );
 }

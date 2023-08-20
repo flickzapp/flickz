@@ -16,67 +16,53 @@ export const fonts = [
 export const fontSizes = [
   {
     name: "1",
-    value: "text-5xl",
+    value: "7rem",
   },
   {
     name: "2",
-    value: "text-7xl",
+    value: "8rem",
   },
   {
     name: "3",
-    value: "text-8xl",
+    value: "9rem",
   },
   {
     name: "4",
-    value: "text-9xl",
+    value: "10rem",
   },
   {
     name: "5",
-    value: "text-[140px]",
+    value: "12rem",
   },
   {
     name: "6",
-    value: "text-[152px]",
+    value: "13.5rem",
   },
   {
     name: "7",
-    value: "text-[164px]",
+    value: "15rem",
   },
   {
     name: "8",
-    value: "text-[176px]",
+    value: "16.5rem",
   },
   {
     name: "9",
-    value: "text-[188px]",
+    value: "18rem",
   },
   {
     name: "10",
-    value: "text-[200px]",
+    value: "19.5rem",
   },
   {
     name: "11",
-    value: "text-[224px]",
+    value: "20rem",
   },
   {
     name: "12",
-    value: "text-[248px]",
-  },
-  {
-    name: "13",
-    value: "text-[272px]",
-  },
-  {
-    name: "14",
-    value: "text-[300px]",
-  },
-  {
-    name: "15",
-    value: "text-[348px]",
+    value: "24rem",
   },
 ];
-
-
 
 export const fontWeights = [
   {
@@ -97,4 +83,4 @@ export const fontWeights = [
   },
 ];
 
-
+export const defaultFontSize = fontSizes[0].value;

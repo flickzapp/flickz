@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import MediaMenu from "./MediaMenu";
 import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
 import { useRouter } from "next/navigation";
+import { defaultFontSize } from "@/config/typographyMenuOpts";
 
 const fps = 60;
 export default function Editor({
@@ -31,7 +32,6 @@ export default function Editor({
   const [currentFrameContent, setCurrentFrameContent] = useState(
     frames[0].text
   );
-  const [edited, setEdited] = useState(false);
   const [compositionDimensions, setCompositionDimensions] = useState({
     height: 1080,
     width: 1920,
@@ -47,7 +47,6 @@ export default function Editor({
       setCurrentFrame(inputIndex - 1);
       setFrames(tempFrames);
     }
-    setEdited(true);
   };
 
   const moveDown = (inputIndex: number) => {
@@ -60,7 +59,6 @@ export default function Editor({
       setFrames(tempFrames);
       setCurrentFrame(inputIndex + 1);
     }
-    setEdited(true);
   };
 
   const addNewFrame = (inputIndex: number) => {
@@ -69,7 +67,13 @@ export default function Editor({
       duration: 2,
       index: inputIndex === -1 ? frames.length : inputIndex + 1,
       entryAnimate: "none",
+      exitAnimate: "none",
+      fontFamily: "inter",
+      fontSize: defaultFontSize,
+      fontColor: "#FFFFFF",
+      backgroundColor: "#000000",
     };
+
     if (inputIndex === -1) {
       setFrames([...frames, newFrame]);
     } else {
@@ -78,7 +82,6 @@ export default function Editor({
       console.log(tempFrames);
       setFrames([...tempFrames]);
     }
-    setEdited(true);
   };
 
   const deleteFrame = (inputIndex: number) => {
@@ -86,7 +89,6 @@ export default function Editor({
     tempFrames.splice(inputIndex, 1);
     setCurrentFrame(inputIndex > 0 ? inputIndex - 1 : inputIndex);
     setFrames([...tempFrames]);
-    setEdited(true);
   };
 
   // moves the player to specific frame
@@ -106,13 +108,10 @@ export default function Editor({
   };
 
   const saveChanges = useCallback(async () => {
-    if (edited) {
-      let tempFrames = [...frames];
-      tempFrames[currentFrame].text = `${currentFrameContent}`;
-      await updateFramesAction(project.id, tempFrames);
-      setEdited(false);
-    }
-  }, [edited]);
+    let tempFrames = [...frames];
+    tempFrames[currentFrame].text = `${currentFrameContent}`;
+    await updateFramesAction(project.id, tempFrames);
+  }, [frames, currentFrameContent]);
 
   const saveProjectMetaChanges = async ({
     aspectRatio,
@@ -163,7 +162,6 @@ export default function Editor({
                       value={currentFrameContent}
                       onChange={(e) => {
                         setCurrentFrameContent(e.target.value);
-                        setEdited(true);
                         e.stopPropagation();
                       }}
                       className="border-none rounded-lg resize-none outline-none"

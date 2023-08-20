@@ -111,15 +111,15 @@ function FrameRenderer({
       <div
         className={cn(
           `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all`,
-          `font-${ipframe.fontFamily} ${ipframe.align} ${
-            ipframe.fontWeight || "font-bold"
-          } ${ipframe.fontSize || "text-9xl"}`
+          `font-${ipframe.fontFamily} ${ipframe.align} ${ipframe.fontWeight}}`
         )}
+        // ${ipframe.fontSize || "text-9xl"}
         // @ts-ignore
         style={{
           ...animate[ipframe.entryAnimate || "none"],
           ...animate[ipframe.exitAnimate || "none"],
           background: ipframe.fontColor,
+          fontSize: ipframe.fontSize || "4rem",
         }}
       >
         {currentFrame ? currentFrameText : ipframe.text}

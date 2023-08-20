@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import {
   Series,
   spring,
@@ -81,9 +82,14 @@ function FrameRenderer({
   };
   return (
     <AbsoluteFill
-      className={`flex items-center justify-center w-full h-full relative rounded-3xl ${
-        !ipframe?.backgroundImgLink && "bg-black"
-      }`}
+      className={cn(
+        `flex items-center justify-center w-full h-full relative rounded-3xl`
+      )}
+      style={
+        !ipframe?.backgroundImgLink
+          ? { background: ipframe.backgroundColor }
+          : {}
+      }
     >
       {(ipframe.backgroundImgLink || ipframe.backgroundVideoLink) && (
         <div className="absolute z-0 left-0 top-0 h-full w-full">
@@ -103,15 +109,17 @@ function FrameRenderer({
       )}
 
       <div
-        className={`z-10 text-white font-${ipframe.fontFamily} ${
-          ipframe.align
-        } ${ipframe.fontWeight || "font-bold"} ${
-          ipframe.fontSize || "text-9xl"
-        }`}
+        className={cn(
+          `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all`,
+          `font-${ipframe.fontFamily} ${ipframe.align} ${
+            ipframe.fontWeight || "font-bold"
+          } ${ipframe.fontSize || "text-9xl"}`
+        )}
         // @ts-ignore
         style={{
           ...animate[ipframe.entryAnimate || "none"],
           ...animate[ipframe.exitAnimate || "none"],
+          background: ipframe.fontColor,
         }}
       >
         {currentFrame ? currentFrameText : ipframe.text}

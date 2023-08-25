@@ -17,6 +17,7 @@ import MediaMenu from "./MediaMenu";
 import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
 import { useRouter } from "next/navigation";
 import { defaultFontSize } from "@/config/typographyMenuOpts";
+import RenderVideoButton from "./RenderVideoButton";
 
 const fps = 60;
 export default function Editor({
@@ -219,9 +220,17 @@ export default function Editor({
             </Card>
           ))}
         </ScrollArea>
-        <Button className="w-full" onClick={() => addNewFrame(-1)}>
-          + Add Frame
-        </Button>
+        <div className="flex flex-col gap-4">
+          <Button className="w-full" onClick={() => addNewFrame(-1)}>
+            + Add Frame
+          </Button>
+          <RenderVideoButton
+            key={currentFrame}
+            frames={frames}
+            currentFrame={currentFrame}
+            currentFrameText={currentFrameContent}
+          />
+        </div>
       </div>
 
       <div className="w-[60%] m-auto">

@@ -9,8 +9,8 @@ const MainNav = () => {
         <span className="font-semibold text-2xl">flickz</span>
       </Link>
       <nav className="flex gap-8">
-        <Link href="/pricing">pricing</Link>
-        <Link href="/help">help</Link>
+        {/* <Link href="/pricing">pricing</Link>
+        <Link href="/help">help</Link> */}
       </nav>
     </div>
   );

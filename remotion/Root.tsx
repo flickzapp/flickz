@@ -8,7 +8,7 @@ export const RemotionRoot: React.FC = () => {
       id={COMP_NAME}
       component={RenderableVideo}
       durationInFrames={300}
-      fps={60}
+      fps={30}
       width={1920}
       height={1080}
       defaultProps={{
@@ -22,13 +22,15 @@ export const RemotionRoot: React.FC = () => {
           },
         ],
       }}
-      calculateMetadata={async (props) => {
+      calculateMetadata={async ({ props }) => {
         console.log(props);
+        const durationInFrames =
+          props.frames.reduce((acc, cur) => acc + cur.duration, 0) * 30;
         return {
-          fps: 60,
+          fps: 30,
           width: 1920,
           height: 1080,
-          durationInFrames: 300,
+          durationInFrames,
         };
       }}
     />

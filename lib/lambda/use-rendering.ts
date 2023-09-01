@@ -49,7 +49,7 @@ export const useRendering = (
     });
     try {
       const { renderId, bucketName } = await renderVideo({ id, inputProps });
-      console.log("Bucket:", bucketName);
+      console.log("Bucket:", bucketName, "RenderId:", renderId);
       setState({
         status: "rendering",
         progress: 0,
@@ -64,6 +64,7 @@ export const useRendering = (
           id: renderId,
           bucketName: bucketName,
         });
+        console.log(result);
         switch (result.type) {
           case "error": {
             setState({

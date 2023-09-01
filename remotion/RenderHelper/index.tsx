@@ -129,7 +129,6 @@ export default function RenderableVideo({
             durationInFrames={ipframe.duration * fps}
           >
             <FrameRenderer ipframe={ipframe} />
-            z.infer()
           </Series.Sequence>
         );
       })}

@@ -227,6 +227,7 @@ export default function Editor({
           <RenderVideoButton
             key={currentFrame}
             frames={frames}
+            project={project}
             currentFrame={currentFrame}
             currentFrameText={currentFrameContent}
           />

@@ -20,6 +20,7 @@ export const ZFrame = z.object({
 
 export const CompositionProps = z.object({
   frames: z.array(ZFrame),
+  aspectRatio: z.string().default("16:9"),
 });
 
 export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
@@ -111,6 +112,7 @@ export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
       backgroundVideoLink: null,
     },
   ],
+  aspectRatio: "4:5",
 };
 
 export const RenderRequest = z.object({

@@ -7,15 +7,18 @@ export default function RenderVideoButton({
   frames,
   currentFrame,
   currentFrameText,
+  project,
 }: {
   frames: frameInputType[];
   currentFrame: number;
   currentFrameText: string;
+  project: EditorProjectType;
 }) {
   const tempFrames = [...frames];
   tempFrames[currentFrame].text = currentFrameText;
   const { renderMedia, state, undo } = useRendering(COMP_NAME, {
     frames: tempFrames,
+    aspectRatio: project.aspectRatio || "16:9",
   });
   return (
     <div>

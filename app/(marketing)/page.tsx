@@ -12,12 +12,12 @@ export default function Home() {
       <section className="container">
         <div className="flex flex-col items-center justify-between gap-8">
           <h1 className="text-8xl font-extrabold mt-20 text-center tracking-tighter">
-            new way to craft videos
+            create product video ads without a video-editor
           </h1>
           <p className="dark:text-gray-400 text-2xl text-center max-w-4xl leading-9 mt-4">
             simply type in your text, select your soundtrack, and upload your
-            content. our intelligent not yet ai-powered platform takes care of
-            the rest.
+            content.
+            <br /> flickz takes care of the rest.
           </p>
           <div className="flex gap-3 mt-4">
             <Link

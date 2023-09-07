@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Editor from "./Editor";
+import NavWrapper from "./NavWrapper";
 
 export default async function EditorPageWrap({
   params: { projectId },
@@ -51,7 +52,9 @@ export default async function EditorPageWrap({
     },
   });
   return (
-    // @ts-ignore
-    <Editor defaultFrames={frames} project={project} />
+    <NavWrapper project={project}>
+      {/* @ts-ignore */}
+      <Editor defaultFrames={frames} project={project} />
+    </NavWrapper>
   );
 }

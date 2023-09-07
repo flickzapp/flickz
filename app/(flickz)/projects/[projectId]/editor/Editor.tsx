@@ -277,17 +277,12 @@ export default function Editor({
           </TabsContent>
           <TabsContent value="ratio">
             <AspectRatioMenu
-              aspectRatio={project.aspectRatio}
+              aspectRatio={project.aspectRatio || "16:9"}
               saveProjectMetaChanges={saveProjectMetaChanges}
               setCompositionDimensions={setCompositionDimensions}
             />
           </TabsContent>
           <TabsContent value="background">
-            {/* <div className="w-full">
-              <h3 className="text-base font-semibold my-4 text-center">
-                Coming soon!
-              </h3>
-            </div> */}
             <MediaMenu
               currentFrame={currentFrame}
               frames={frames}

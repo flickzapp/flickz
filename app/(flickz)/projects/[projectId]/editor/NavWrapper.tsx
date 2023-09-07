@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 import { UserAccountNav } from "@/components/user-account-nav";
 import AppNav from "@/components/app-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
-
+import ProjectMenu from "./ProjectMenu";
 interface DashboardLayoutProps {
   project: Partial<EditorProjectType>;
   children?: React.ReactNode;
@@ -25,9 +25,7 @@ export default async function NavWrapper({
       <header className="sticky top-0 z-40 border-b bg-background">
         <div className="px-4 flex h-16 items-center justify-between py-4">
           <AppNav />
-          <div className="flex">
-            <h1 className="text-xl font-light">{project.name}</h1>
-          </div>
+          <ProjectMenu project={project} />
           <div className="flex items-center gap-2">
             <UserAccountNav
               user={{

@@ -1,6 +1,4 @@
-import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Editor from "./Editor";
 import NavWrapper from "./NavWrapper";

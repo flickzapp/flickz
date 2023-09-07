@@ -7,7 +7,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyMenu from "./TypographyMenu";
-import AspectRatioMenu from "./AspectRatioMenu";
 import AnimationMenu from "./AnimationMenu";
 import { Icons } from "@/components/icons";
 import { updateFramesAction, updateProjectAction } from "@/actions";
@@ -32,10 +31,6 @@ export default function Editor({
   const [currentFrameContent, setCurrentFrameContent] = useState(
     frames[0].text
   );
-  const [compositionDimensions, setCompositionDimensions] = useState({
-    height: 1080,
-    width: 1920,
-  });
   const router = useRouter();
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
@@ -112,29 +107,6 @@ export default function Editor({
     tempFrames[currentFrame].text = `${currentFrameContent}`;
     await updateFramesAction(project.id, tempFrames);
   }, [frames, currentFrameContent]);
-
-  const saveProjectMetaChanges = async ({
-    aspectRatio,
-    audioLink,
-  }: {
-    aspectRatio?: string;
-    audioLink?: string;
-  }) => {
-    let newProjectData = {
-      ...project,
-      aspectRatio: aspectRatio,
-      audioLink: audioLink,
-    };
-    await updateProjectAction(project.id, newProjectData);
-    router.refresh();
-  };
-
-  useEffect(() => {
-    if (project.aspectRatio) {
-      const newDimensions = getDimensionsForAspectRatio(project.aspectRatio);
-      setCompositionDimensions(newDimensions);
-    }
-  }, [project]);
 
   useEffect(() => {
     const autoSave = setInterval(() => {
@@ -237,8 +209,12 @@ export default function Editor({
               maxHeight: "80vh",
             }}
             fps={fps}
-            compositionHeight={compositionDimensions.height}
-            compositionWidth={compositionDimensions.width}
+            compositionHeight={
+              getDimensionsForAspectRatio(project.aspectRatio || "16:9").height
+            }
+            compositionWidth={
+              getDimensionsForAspectRatio(project.aspectRatio || "16:9").width
+            }
             loop={true}
             controls={true}
             inputProps={{
@@ -258,9 +234,6 @@ export default function Editor({
             <TabsTrigger value="typography">
               <Icons.typography className="h-4 w-4" />
             </TabsTrigger>
-            <TabsTrigger value="ratio">
-              <Icons.screenSize className="h-4 w-4" />
-            </TabsTrigger>
             <TabsTrigger value="background">
               <Icons.mediaAssets className="h-4 w-4" />
             </TabsTrigger>
@@ -273,13 +246,6 @@ export default function Editor({
               currentFrame={currentFrame}
               frames={frames}
               setFrames={setFrames}
-            />
-          </TabsContent>
-          <TabsContent value="ratio">
-            <AspectRatioMenu
-              aspectRatio={project.aspectRatio || "16:9"}
-              saveProjectMetaChanges={saveProjectMetaChanges}
-              setCompositionDimensions={setCompositionDimensions}
             />
           </TabsContent>
           <TabsContent value="background">

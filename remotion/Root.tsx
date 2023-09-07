@@ -1,6 +1,7 @@
 import { Composition } from "remotion";
 import RenderableVideo from "./RenderHelper";
 import { COMP_NAME } from "../lib/constants";
+import { defaultMyCompProps } from "../types/lambda";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -11,17 +12,7 @@ export const RemotionRoot: React.FC = () => {
       fps={30}
       width={1920}
       height={1080}
-      defaultProps={{
-        frames: [
-          {
-            text: "Hello World",
-            duration: 2,
-            id: "1",
-            index: 0,
-            entryAnimate: "none",
-          },
-        ],
-      }}
+      defaultProps={defaultMyCompProps}
       calculateMetadata={async ({ props }) => {
         console.log(props);
         const durationInFrames =

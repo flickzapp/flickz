@@ -38,6 +38,7 @@
     "@remotion/google-fonts": "4.0.22",
     "@remotion/lambda": "4.0.22",
     "@remotion/player": "4.0.22",
+    "@remotion/tailwind": "4.0.22",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",

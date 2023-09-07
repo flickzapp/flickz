@@ -75,15 +75,38 @@ function FrameRenderer({ ipframe }: { ipframe: z.infer<typeof ZFrame> }) {
   };
   return (
     <AbsoluteFill
-      className={`flex items-center justify-center w-full h-full relative rounded-3xl`}
-      style={
-        !ipframe?.backgroundImgLink && ipframe?.backgroundColor
-          ? { background: ipframe.backgroundColor }
-          : {}
-      }
+      // className={`flex items-center justify-center w-full h-full relative rounded-3xl`}
+      // style={
+      //   ipframe?.backgroundImgLink && ipframe?.backgroundColor
+      //      { background: ipframe.backgroundColor }
+      //     : {}
+      // }
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        borderRadius: "3rem",
+        background: ipframe.backgroundColor || "#000",
+        // ipframe?.backgroundImgLink && ipframe?.backgroundColor
+        // ? ipframe.backgroundColor
+        // : "black",
+      }}
     >
       {(ipframe.backgroundImgLink || ipframe.backgroundVideoLink) && (
-        <div className="absolute z-0 left-0 top-0 h-full w-full">
+        <div
+          // className="absolute z-0 left-0 top-0 h-full w-full"
+          style={{
+            position: "absolute",
+            zIndex: 0,
+            left: 0,
+            top: 0,
+            height: "100%",
+            width: "100%",
+          }}
+        >
           <AbsoluteFill>
             {ipframe.backgroundImgLink && (
               <Img
@@ -100,14 +123,24 @@ function FrameRenderer({ ipframe }: { ipframe: z.infer<typeof ZFrame> }) {
       )}
 
       <div
-        className={`z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all font-${ipframe.fontFamily} ${ipframe.align} ${ipframe.fontWeight}}`}
+        // className={`z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all font-${ipframe.fontFamily} ${ipframe.align} ${ipframe.fontWeight}}`}
         style={{
           // @ts-ignore
           ...animate[ipframe.entryAnimate || "none"],
           // @ts-ignore
           ...animate[ipframe.exitAnimate || "none"],
-          background: ipframe.fontColor,
           fontSize: ipframe.fontSize || "4rem",
+          zIndex: 10,
+          color: ipframe.fontColor,
+          fontFamily: ipframe.fontFamily,
+          fontWeight: ipframe.fontWeight,
+          textAlign: ipframe.align,
+          backgroundClip: "text",
+          backgroundSize: "cover",
+
+          // transition-property: all;
+          // transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          // transition-duration: 150ms;
         }}
       >
         {ipframe.text}

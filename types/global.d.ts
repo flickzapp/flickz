@@ -20,6 +20,6 @@ type frameInputType = {
 type EditorProjectType = {
   id: string;
   name: string;
-  aspectRatio?: string;
+  aspectRatio?: string | null;
   audioLink?: string;
 };

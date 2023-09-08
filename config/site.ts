@@ -1,5 +1,5 @@
 export const siteConfig = {
-    name: "Flickz",
+    name: "Flickz hello",
     url: "https://flickz.app",
     // ogImage: "lorem ipsum",
     description:

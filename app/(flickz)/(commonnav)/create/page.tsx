@@ -77,7 +77,7 @@ export default function VideoCreatePage() {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Project Title</FormLabel>
+                <FormLabel>Product Title</FormLabel>
                 <FormControl>
                   <Input placeholder="Project Title" {...field} />
                 </FormControl>
@@ -90,7 +90,7 @@ export default function VideoCreatePage() {
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Project Description</FormLabel>
+                <FormLabel>Product Description</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Add the content which you wanna see on the video"

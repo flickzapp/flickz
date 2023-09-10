@@ -16,9 +16,7 @@ interface MediaMenuInterface {
   currentFrame: number;
   frames: frameInputType[];
   setFrames: any;
-  setSavedChanges: React.Dispatch<
-    React.SetStateAction<"init" | "saving" | "saved">
-  >;
+  setSavedChanges: SetSavingStatusType;
 }
 export default function MediaMenu({
   currentFrame,

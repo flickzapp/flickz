@@ -1,8 +1,5 @@
 "use client";
 
-import { notFound } from "next/navigation";
-
-import { getCurrentUser } from "@/lib/session";
 import { UserAccountNav } from "@/components/user-account-nav";
 import AppNav from "@/components/app-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -14,10 +11,7 @@ import RenderVideoButton from "./RenderVideoButton";
 interface DashboardLayoutProps {
   project: Partial<EditorProjectType>;
   children?: React.ReactNode;
-  savedChanges: "init" | "saving" | "saved";
-  setSavedChanges: React.Dispatch<
-    React.SetStateAction<"init" | "saving" | "saved">
-  >;
+  savedChanges: SavingStatusType;
   user: Pick<User, "name" | "image" | "email">;
   defaultFrames: any;
 }
@@ -26,7 +20,6 @@ export default function NavWrapper({
   children,
   project,
   savedChanges,
-  setSavedChanges,
   user,
   defaultFrames,
 }: DashboardLayoutProps) {

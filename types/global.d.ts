@@ -32,3 +32,6 @@ type RenderVideoAPIBody = {
   id: string;
   inputProps: RenderVideoProps;
 };
+
+type SavingStatusType = "init" | "saving" | "saved";
+type SetSavingStatusType = React.Dispatch<React.SetStateAction<SavingStatus>>;

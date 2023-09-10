@@ -25,10 +25,8 @@ export default function Editor({
 }: {
   defaultFrames: frameInputType[];
   project: EditorProjectType;
-  savedChanges: "init" | "saving" | "saved";
-  setSavedChanges: React.Dispatch<
-    React.SetStateAction<"init" | "saving" | "saved">
-  >;
+  savedChanges: SavingStatusType;
+  setSavedChanges: SetSavingStatusType;
 }) {
   const [frames, setFrames] = useState<frameInputType[]>(defaultFrames);
   const playerRef = useRef<PlayerRef>(null);

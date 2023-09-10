@@ -14,15 +14,12 @@ export default function StateWrapper({
   defaultFrames: any;
   user: Pick<User, "name" | "image" | "email">;
 }) {
-  const [savedChanges, setSavedChanges] = useState<"init" | "saving" | "saved">(
-    "init"
-  );
+  const [savedChanges, setSavedChanges] = useState<SavingStatusType>("init");
 
   return (
     <NavWrapper
       project={project}
       savedChanges={savedChanges}
-      setSavedChanges={setSavedChanges}
       user={user}
       defaultFrames={defaultFrames}
     >

@@ -114,9 +114,10 @@ function FrameRenderer({
           `font-${ipframe.fontFamily} ${ipframe.align} ${ipframe.fontWeight}}`
         )}
         // ${ipframe.fontSize || "text-9xl"}
-        // @ts-ignore
         style={{
+          // @ts-ignore
           ...animate[ipframe.entryAnimate || "none"],
+          // @ts-ignore
           ...animate[ipframe.exitAnimate || "none"],
           background: ipframe.fontColor,
           fontSize: ipframe.fontSize || "4rem",

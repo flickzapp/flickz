@@ -9,22 +9,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyMenu from "./TypographyMenu";
 import AnimationMenu from "./AnimationMenu";
 import { Icons } from "@/components/icons";
-import { updateFramesAction, updateProjectAction } from "@/actions";
+import { updateFramesAction } from "@/actions";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import MediaMenu from "./MediaMenu";
 import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
-import { useRouter } from "next/navigation";
 import { defaultFontSize } from "@/config/typographyMenuOpts";
-import RenderVideoButton from "./RenderVideoButton";
 
 const fps = 60;
 export default function Editor({
   defaultFrames,
   project,
+  savedChanges,
+  setSavedChanges,
 }: {
   defaultFrames: frameInputType[];
   project: EditorProjectType;
+  savedChanges: "init" | "saving" | "saved";
+  setSavedChanges: React.Dispatch<
+    React.SetStateAction<"init" | "saving" | "saved">
+  >;
 }) {
   const [frames, setFrames] = useState<frameInputType[]>(defaultFrames);
   const playerRef = useRef<PlayerRef>(null);
@@ -32,7 +36,6 @@ export default function Editor({
   const [currentFrameContent, setCurrentFrameContent] = useState(
     frames[0].text
   );
-  const router = useRouter();
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];
@@ -41,6 +44,7 @@ export default function Editor({
         tempFrames[inputIndex],
       ];
       setCurrentFrame(inputIndex - 1);
+      setSavedChanges("saving");
       setFrames(tempFrames);
     }
   };
@@ -53,6 +57,7 @@ export default function Editor({
         tempFrames[inputIndex],
       ];
       setFrames(tempFrames);
+      setSavedChanges("saving");
       setCurrentFrame(inputIndex + 1);
     }
   };
@@ -70,6 +75,7 @@ export default function Editor({
       backgroundColor: "#000000",
     };
 
+    setSavedChanges("saving");
     if (inputIndex === -1) {
       setFrames([...frames, newFrame]);
     } else {
@@ -85,6 +91,7 @@ export default function Editor({
     tempFrames.splice(inputIndex, 1);
     setCurrentFrame(inputIndex > 0 ? inputIndex - 1 : inputIndex);
     setFrames([...tempFrames]);
+    setSavedChanges("saving");
   };
 
   // moves the player to specific frame
@@ -104,10 +111,13 @@ export default function Editor({
   };
 
   const saveChanges = useCallback(async () => {
-    let tempFrames = [...frames];
-    tempFrames[currentFrame].text = `${currentFrameContent}`;
-    await updateFramesAction(project.id, tempFrames);
-  }, [frames, currentFrameContent]);
+    if (savedChanges == "saving") {
+      let tempFrames = [...frames];
+      tempFrames[currentFrame].text = `${currentFrameContent}`;
+      await updateFramesAction(project.id, tempFrames);
+      setSavedChanges("saved");
+    }
+  }, [frames, currentFrameContent, savedChanges]);
 
   useEffect(() => {
     const autoSave = setInterval(() => {
@@ -135,6 +145,7 @@ export default function Editor({
                       value={currentFrameContent}
                       onChange={(e) => {
                         setCurrentFrameContent(e.target.value);
+                        setSavedChanges("saving");
                         e.stopPropagation();
                       }}
                       className="border-none rounded-lg resize-none outline-none"
@@ -196,13 +207,6 @@ export default function Editor({
           <Button className="w-full" onClick={() => addNewFrame(-1)}>
             + Add Frame
           </Button>
-          <RenderVideoButton
-            key={currentFrame}
-            frames={frames}
-            project={project}
-            currentFrame={currentFrame}
-            currentFrameText={currentFrameContent}
-          />
         </div>
       </div>
 
@@ -256,6 +260,7 @@ export default function Editor({
               currentFrame={currentFrame}
               frames={frames}
               setFrames={setFrames}
+              setSavedChanges={setSavedChanges}
             />
           </TabsContent>
           <TabsContent value="background">
@@ -263,6 +268,7 @@ export default function Editor({
               currentFrame={currentFrame}
               frames={frames}
               setFrames={setFrames}
+              setSavedChanges={setSavedChanges}
             />
           </TabsContent>
           <TabsContent value="animation">
@@ -270,6 +276,7 @@ export default function Editor({
               currentFrame={currentFrame}
               frames={frames}
               setFrames={setFrames}
+              setSavedChanges={setSavedChanges}
             />
           </TabsContent>
         </Tabs>

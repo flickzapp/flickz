@@ -13,11 +13,20 @@ import {
 } from "@/components/ui/select";
 import { Icons } from "@/components/icons";
 
+interface AnimationMenuInterface {
+  currentFrame: number;
+  frames: frameInputType[];
+  setFrames: any;
+  setSavedChanges: React.Dispatch<
+    React.SetStateAction<"init" | "saving" | "saved">
+  >;
+}
 export default function AnimationMenu({
   currentFrame,
   frames,
   setFrames,
-}: any) {
+  setSavedChanges,
+}: AnimationMenuInterface) {
   const entryAnimations = [
     {
       name: "No Animation",
@@ -59,6 +68,7 @@ export default function AnimationMenu({
       }
       return frame;
     });
+    setSavedChanges("saving");
     setFrames(newFrames);
   };
 

@@ -24,11 +24,15 @@ interface TypographyMenuInterface {
   currentFrame: number;
   frames: frameInputType[];
   setFrames: any;
+  setSavedChanges: React.Dispatch<
+    React.SetStateAction<"init" | "saving" | "saved">
+  >;
 }
 export default function TypographyMenu({
   currentFrame,
   frames,
   setFrames,
+  setSavedChanges,
 }: TypographyMenuInterface) {
   const [background, setBackground] = useState("#000000");
   const [fontColor, setFontColor] = useState("#FFFFFF");
@@ -39,6 +43,7 @@ export default function TypographyMenu({
       }
       return frame;
     });
+    setSavedChanges("saving");
     setFrames(newFrames);
   };
 

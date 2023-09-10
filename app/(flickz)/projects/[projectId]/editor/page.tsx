@@ -2,6 +2,8 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Editor from "./Editor";
 import NavWrapper from "./NavWrapper";
+import { getCurrentUser } from "@/lib/session";
+import StateWrapper from "./StateWrapper";
 
 export default async function EditorPageWrap({
   params: { projectId },
@@ -49,10 +51,10 @@ export default async function EditorPageWrap({
       index: "asc",
     },
   });
-  return (
-    <NavWrapper project={project}>
-      {/* @ts-ignore */}
-      <Editor defaultFrames={frames} project={project} />
-    </NavWrapper>
-  );
+  const user = await getCurrentUser();
+  if (!user) {
+    return redirect("/login");
+  }
+
+  return <StateWrapper user={user} project={project} defaultFrames={frames} />;
 }

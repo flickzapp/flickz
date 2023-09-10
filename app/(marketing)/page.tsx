@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 
-const stars = 1000;
+const stars = false;
 
 export default function Home() {
   return (
@@ -12,12 +12,12 @@ export default function Home() {
       <section className="container">
         <div className="flex flex-col items-center justify-between gap-8">
           <h1 className="text-8xl font-extrabold mt-20 text-center tracking-tighter">
-            new way to craft videos
+            create product video ads without a video-editor
           </h1>
           <p className="dark:text-gray-400 text-2xl text-center max-w-4xl leading-9 mt-4">
             simply type in your text, select your soundtrack, and upload your
-            content. our intelligent not yet ai-powered platform takes care of
-            the rest.
+            content.
+            <br /> flickz takes care of the rest.
           </p>
           <div className="flex gap-3 mt-4">
             <Link
@@ -30,7 +30,9 @@ export default function Home() {
               start creating
             </Link>
             <Link
-              href={`/create`}
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "text-lg"
@@ -40,6 +42,21 @@ export default function Home() {
               star on github
             </Link>
           </div>
+        </div>
+      </section>
+      <section className="container py-8 md:py-12 lg:py-24">
+        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
+          {/* <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl font-semibold">
+            {`here's what its gonna look like!`}
+          </h2> */}
+
+          <video
+            className="w-full"
+            autoPlay
+            loop
+            muted
+            src="/final-dark.webm"
+          />
         </div>
       </section>
       <section id="open-source" className="container py-8 md:py-12 lg:py-24">

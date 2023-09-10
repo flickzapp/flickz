@@ -39,11 +39,11 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuSeparator />
-        <Link href="/projects">
+        {/* <Link href="/projects">
           <DropdownMenuItem className="cursor-pointer">
             Projects
           </DropdownMenuItem>
-        </Link>
+        </Link> */}
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={(event) => {

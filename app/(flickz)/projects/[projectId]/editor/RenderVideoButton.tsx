@@ -17,6 +17,7 @@ export default function RenderVideoButton({
   const { renderMedia, state, undo } = useRendering(COMP_NAME, {
     frames: tempFrames,
     aspectRatio: project.aspectRatio || "16:9",
+    audioLink: project.audioLink,
   });
 
   const handleSavedChanges = () => {

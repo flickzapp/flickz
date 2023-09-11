@@ -36,12 +36,12 @@ export const musicLinks = [
   },
   {
     name: "Tiger",
-    type: "local",
-    value: "/Strong_Way.mp3",
+    value:
+      "https://uploadthing.com/f/e8207978-83fd-4b01-852b-65dbe55aa21c_Strong_Way-%5BAudioTrimmer.com%5D.mp3",
   },
   {
     name: "Lion",
-    type: "local",
-    value: "/Wolf_Team.mp3",
+    value:
+      "https://uploadthing.com/f/d5a43521-cd87-4d1a-a966-67d47c725b3d_Wolf_Team-%5BAudioTrimmer.com%5D.mp3",
   },
 ];

@@ -19,6 +19,7 @@ import { Icons } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ColorPicker } from "@/components/color-picker";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 interface TypographyMenuInterface {
   currentFrame: number;
@@ -32,8 +33,12 @@ export default function TypographyMenu({
   setFrames,
   setSavedChanges,
 }: TypographyMenuInterface) {
-  const [background, setBackground] = useState("#000000");
-  const [fontColor, setFontColor] = useState("#FFFFFF");
+  const [background, setBackground] = useState(
+    frames[currentFrame].backgroundColor || "#ffffff"
+  );
+  const [fontColor, setFontColor] = useState(
+    frames[currentFrame].fontColor || "#000000"
+  );
   const handlePropertyChange = (fieldKey: string, newVal: string) => {
     let newFrames = frames.map((frame: any, index: number) => {
       if (index === currentFrame) {
@@ -56,7 +61,24 @@ export default function TypographyMenu({
             <Icons.horizontalEllipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                const tempFrames = [...frames];
+                tempFrames.forEach((frame) => {
+                  frame.fontFamily = frames[currentFrame].fontFamily;
+                  frame.fontWeight = frames[currentFrame].fontWeight;
+                  frame.fontSize = frames[currentFrame].fontSize;
+                  frame.align = frames[currentFrame].align;
+                });
+                setFrames(tempFrames);
+                setSavedChanges("saving");
+                toast({
+                  title: "Typography applied to all frames",
+                });
+              }}
+            >
+              Apply To All frames
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -121,7 +143,21 @@ export default function TypographyMenu({
             <Icons.horizontalEllipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                const tempFrames = [...frames];
+                tempFrames.forEach((frame) => {
+                  frame.backgroundColor = background;
+                });
+                setFrames(tempFrames);
+                setSavedChanges("saving");
+                toast({
+                  title: "Background color applied to all frames",
+                });
+              }}
+            >
+              Apply To All frames
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -139,7 +175,21 @@ export default function TypographyMenu({
             <Icons.horizontalEllipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                const tempFrames = [...frames];
+                tempFrames.forEach((frame) => {
+                  frame.fontColor = fontColor;
+                });
+                setFrames(tempFrames);
+                setSavedChanges("saving");
+                toast({
+                  title: "Font color applied to all frames",
+                });
+              }}
+            >
+              Apply To All frames
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

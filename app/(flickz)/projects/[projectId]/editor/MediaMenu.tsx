@@ -60,7 +60,7 @@ export default function MediaMenu({
               <DropdownMenuItem
                 onClick={() => {
                   let tempFrames = [...frames];
-                  tempFrames[currentFrame].backgroundImgLink = undefined;
+                  tempFrames[currentFrame].backgroundImgLink = "";
                   setFrames(tempFrames);
                   setSavedChanges("saving");
                 }}

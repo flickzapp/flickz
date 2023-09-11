@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Icons } from "@/components/icons";
+import { toast } from "@/components/ui/use-toast";
 
 interface AnimationMenuInterface {
   currentFrame: number;
@@ -79,7 +80,22 @@ export default function AnimationMenu({
             <Icons.horizontalEllipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Apply To All frames</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                const tempFrames = [...frames];
+                tempFrames.forEach((frame) => {
+                  frame.entryAnimate = frames[currentFrame].entryAnimate;
+                  frame.exitAnimate = frames[currentFrame].exitAnimate;
+                });
+                setFrames(tempFrames);
+                setSavedChanges("saving");
+                toast({
+                  title: "Animation applied to all frames",
+                });
+              }}
+            >
+              Apply To All frames
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

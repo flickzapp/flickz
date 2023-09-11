@@ -9,6 +9,7 @@ import {
   interpolate,
   AbsoluteFill,
   Img,
+  Audio,
 } from "remotion";
 import { z } from "zod";
 
@@ -151,20 +152,24 @@ function FrameRenderer({ ipframe }: { ipframe: z.infer<typeof ZFrame> }) {
 
 export default function RenderableVideo({
   frames,
+  audioLink,
 }: z.infer<typeof CompositionProps>) {
   const { fps } = useVideoConfig();
   return (
-    <Series>
-      {frames.map((ipframe: z.infer<typeof ZFrame>, index: number) => {
-        return (
-          <Series.Sequence
-            key={index}
-            durationInFrames={ipframe.duration * fps}
-          >
-            <FrameRenderer ipframe={ipframe} />
-          </Series.Sequence>
-        );
-      })}
-    </Series>
+    <AbsoluteFill>
+      {audioLink && <Audio src={audioLink} />}
+      <Series>
+        {frames.map((ipframe: z.infer<typeof ZFrame>, index: number) => {
+          return (
+            <Series.Sequence
+              key={index}
+              durationInFrames={ipframe.duration * fps}
+            >
+              <FrameRenderer ipframe={ipframe} />
+            </Series.Sequence>
+          );
+        })}
+      </Series>
+    </AbsoluteFill>
   );
 }

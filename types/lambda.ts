@@ -21,6 +21,7 @@ export const ZFrame = z.object({
 export const CompositionProps = z.object({
   frames: z.array(ZFrame),
   aspectRatio: z.string().default("16:9"),
+  audioLink: z.string().nullable().optional(),
 });
 
 export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
@@ -99,6 +100,8 @@ export const defaultMyCompProps: z.infer<typeof CompositionProps> = {
     },
   ],
   aspectRatio: "4:5",
+  audioLink:
+    "https://uploadthing.com/f/d5a43521-cd87-4d1a-a966-67d47c725b3d_Wolf_Team-%5BAudioTrimmer.com%5D.mp3",
 };
 
 export const RenderRequest = z.object({

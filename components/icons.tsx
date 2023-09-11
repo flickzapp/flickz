@@ -36,7 +36,9 @@ import {
   Film,
   MoveUpIcon,
   MoveDownIcon,
-  Paintbrush
+  Paintbrush,
+  Play,
+  Pause,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -76,6 +78,8 @@ export const Icons = {
   moveUp: MoveUpIcon,
   moveDown: MoveDownIcon,
   paintBrush: Paintbrush,
+  playIcon: Play,
+  pauseIcon: Pause,
   logo: ({ ...props }: LucideProps) => (
     <svg
       width="45"

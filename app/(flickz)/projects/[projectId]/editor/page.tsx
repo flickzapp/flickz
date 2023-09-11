@@ -18,6 +18,7 @@ export default async function EditorPageWrap({
       id: true,
       name: true,
       aspectRatio: true,
+      audioLink: true,
     },
   });
 

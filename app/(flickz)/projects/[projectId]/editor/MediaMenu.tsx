@@ -16,11 +16,13 @@ interface MediaMenuInterface {
   currentFrame: number;
   frames: frameInputType[];
   setFrames: any;
+  setSavedChanges: SetSavingStatusType;
 }
 export default function MediaMenu({
   currentFrame,
   frames,
   setFrames,
+  setSavedChanges,
 }: MediaMenuInterface) {
   const [loading, setLoading] = useState(false);
   const handleApplyToAllFrames = () => {
@@ -32,6 +34,7 @@ export default function MediaMenu({
     });
     setFrames(tempFrames);
     setLoading(false);
+    setSavedChanges("saving");
     toast({
       title: "Applied to all frames!",
     });
@@ -51,6 +54,7 @@ export default function MediaMenu({
                   let tempFrames = [...frames];
                   tempFrames[currentFrame].backgroundImgLink = undefined;
                   setFrames(tempFrames);
+                  setSavedChanges("saving");
                 }}
               >
                 Remove Background
@@ -84,6 +88,7 @@ export default function MediaMenu({
             const tempFrames = [...frames];
             tempFrames[currentFrame].backgroundImgLink = res[0].url;
             setFrames(tempFrames);
+            setSavedChanges("saving");
             toast({
               title: "Image uploaded!",
             });

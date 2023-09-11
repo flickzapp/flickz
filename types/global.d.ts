@@ -3,12 +3,12 @@ type frameInputType = {
   id?: string;
   index: number;
   duration: number;
-  entryAnimate: "grow" | "none" | "moveUp" | "slideFromRight";
+  entryAnimate: string;
   fontFamily?: string;
-  fontWeight?: "font-bold" | "font-normal" | "font-semibold" | "font-extrabold";
+  fontWeight?: string;
   fontSize?: string;
-  align?: "text-left" | "text-center" | "text-right" | "text-justify";
-  exitAnimate?: "fadeOut" | "shrink" | "none";
+  align?: string;
+  exitAnimate?: string;
   backgroundColor?: string;
   projectId?: string;
   fontColor?: string;
@@ -23,3 +23,15 @@ type EditorProjectType = {
   aspectRatio?: string | null;
   audioLink?: string;
 };
+
+type RenderVideoProps = {
+  frames: frameInputType[];
+};
+
+type RenderVideoAPIBody = {
+  id: string;
+  inputProps: RenderVideoProps;
+};
+
+type SavingStatusType = "init" | "saving" | "saved";
+type SetSavingStatusType = React.Dispatch<React.SetStateAction<SavingStatus>>;

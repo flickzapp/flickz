@@ -233,6 +233,7 @@ export default function Editor({
               frames: frames,
               currentFrame: currentFrame,
               currentFrameText: currentFrameContent,
+              audioLink: project.audioLink,
             }}
           />
         </div>
@@ -267,6 +268,7 @@ export default function Editor({
               frames={frames}
               setFrames={setFrames}
               setSavedChanges={setSavedChanges}
+              project={project}
             />
           </TabsContent>
           <TabsContent value="animation">

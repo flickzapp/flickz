@@ -12,17 +12,22 @@ import { toast } from "@/components/ui/use-toast";
 import "@uploadthing/react/styles.css";
 import { useState } from "react";
 import Image from "next/image";
+import { musicLinks } from "@/config/musicOpts";
+import MusicSamplePlayer from "@/components/shared/MusicPlayer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface MediaMenuInterface {
   currentFrame: number;
   frames: frameInputType[];
   setFrames: any;
   setSavedChanges: SetSavingStatusType;
+  project: EditorProjectType;
 }
 export default function MediaMenu({
   currentFrame,
   frames,
   setFrames,
   setSavedChanges,
+  project,
 }: MediaMenuInterface) {
   const [loading, setLoading] = useState(false);
   const handleApplyToAllFrames = () => {
@@ -101,6 +106,21 @@ export default function MediaMenu({
           });
         }}
       />
+      <div className="flex justify-between items-center">
+        <h3 className="text-base font-semibold my-4">Audio </h3>
+      </div>
+      <ScrollArea className="h-[30vh]">
+        <div className="flex flex-col gap-4">
+          {musicLinks.map((music, index) => (
+            <MusicSamplePlayer
+              key={`music-${index}`}
+              name={music.name}
+              path={music.value}
+              project={project}
+            />
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 }

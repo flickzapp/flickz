@@ -9,6 +9,7 @@ import {
   interpolate,
   AbsoluteFill,
   Img,
+  Audio,
 } from "remotion";
 
 function FrameRenderer({
@@ -133,28 +134,33 @@ export default function InteractivePlayer({
   frames,
   currentFrame,
   currentFrameText,
+  audioLink,
 }: {
   frames: frameInputType[];
   currentFrame: number;
   currentFrameText: string;
+  audioLink: string | null | undefined;
 }) {
   const { fps } = useVideoConfig();
   return (
-    <Series>
-      {frames.map((ipframe: frameInputType, index: number) => {
-        return (
-          <Series.Sequence
-            key={index}
-            durationInFrames={ipframe.duration * fps}
-          >
-            <FrameRenderer
-              ipframe={ipframe}
-              currentFrame={currentFrame === index}
-              currentFrameText={currentFrameText}
-            />
-          </Series.Sequence>
-        );
-      })}
-    </Series>
+    <AbsoluteFill>
+      {audioLink && <Audio src={audioLink} />}
+      <Series>
+        {frames.map((ipframe: frameInputType, index: number) => {
+          return (
+            <Series.Sequence
+              key={index}
+              durationInFrames={ipframe.duration * fps}
+            >
+              <FrameRenderer
+                ipframe={ipframe}
+                currentFrame={currentFrame === index}
+                currentFrameText={currentFrameText}
+              />
+            </Series.Sequence>
+          );
+        })}
+      </Series>
+    </AbsoluteFill>
   );
 }

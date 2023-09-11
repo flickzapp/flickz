@@ -21,7 +21,7 @@ type EditorProjectType = {
   id: string;
   name: string;
   aspectRatio?: string | null;
-  audioLink?: string;
+  audioLink?: string | null;
 };
 
 type RenderVideoProps = {

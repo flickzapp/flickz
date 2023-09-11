@@ -14,7 +14,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AlignMentButtonContainer from "./AlignMentButtonContainer";
-import { fontSizes, fontWeights, fonts } from "@/config/typographyMenuOpts";
+import {
+  fontSizes,
+  fontWeights,
+  fonts,
+  googleFonts,
+} from "@/config/typographyMenuOpts";
 import { Icons } from "@/components/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ColorPicker } from "@/components/color-picker";
@@ -55,8 +60,6 @@ export default function TypographyMenu({
     setFrames(newFrames);
   };
 
-  // console.log("frames[currentFrame].fontSize", frames[currentFrame].fontSize)
-
   return (
     <div className="flex flex-col w-full space-y-6">
       <div className="flex justify-between items-center ">
@@ -95,11 +98,13 @@ export default function TypographyMenu({
           <SelectValue placeholder="Font Style" />
         </SelectTrigger>
         <SelectContent>
-          {fonts.map((font) => (
-            <SelectItem value={font.value} key={font.value}>
-              {font.name}
-            </SelectItem>
-          ))}
+          <ScrollArea className="h-[30vh]">
+            {googleFonts.map((font) => (
+              <SelectItem value={font.family} key={font.family}>
+                {font.family}
+              </SelectItem>
+            ))}
+          </ScrollArea>
         </SelectContent>
       </Select>
       <div className="flex gap-4 ">

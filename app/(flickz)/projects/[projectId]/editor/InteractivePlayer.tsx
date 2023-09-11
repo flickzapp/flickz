@@ -1,5 +1,6 @@
 "use client";
 
+import { googleFonts } from "@/config/typographyMenuOpts";
 import { cn } from "@/lib/utils";
 import {
   Series,
@@ -22,6 +23,8 @@ function FrameRenderer({
 }) {
   const { fps, width, height } = useVideoConfig();
   const frame = useCurrentFrame();
+  const font = googleFonts.find((item) => item.family === ipframe.fontFamily);
+  font?.load().then((res) => {});
   const entryProgress = spring({
     frame,
     fps,
@@ -110,8 +113,8 @@ function FrameRenderer({
 
       <div
         className={cn(
-          `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all`,
-          `font-${ipframe.fontFamily} ${ipframe.align} ${ipframe.fontWeight}}`
+          `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all prose`,
+          `${ipframe.align} ${ipframe.fontWeight}}`
         )}
         // ${ipframe.fontSize || "text-9xl"}
         style={{
@@ -121,6 +124,7 @@ function FrameRenderer({
           ...animate[ipframe.exitAnimate || "none"],
           background: ipframe.fontColor,
           fontSize: ipframe.fontSize || "4rem",
+          fontFamily: ipframe.fontFamily,
         }}
       >
         {currentFrame ? currentFrameText : ipframe.text}

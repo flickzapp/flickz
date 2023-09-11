@@ -15,6 +15,8 @@ import Image from "next/image";
 import { musicLinks } from "@/config/musicOpts";
 import MusicSamplePlayer from "@/components/shared/MusicPlayer";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { updateProjectAction } from "@/actions";
+import { useRouter } from "next/navigation";
 interface MediaMenuInterface {
   currentFrame: number;
   frames: frameInputType[];
@@ -30,6 +32,7 @@ export default function MediaMenu({
   project,
 }: MediaMenuInterface) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const handleApplyToAllFrames = () => {
     setLoading(true);
     const imgLink = frames[currentFrame].backgroundImgLink;
@@ -108,9 +111,32 @@ export default function MediaMenu({
       />
       <div className="flex justify-between items-center">
         <h3 className="text-base font-semibold my-4">Audio </h3>
+        {project.audioLink && (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Icons.horizontalEllipsis className="h-5 w-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onClick={async () => {
+                  await updateProjectAction(project.id, {
+                    ...project,
+                    audioLink: "",
+                  });
+                  toast({
+                    title: "Removed music",
+                  });
+                  router.refresh();
+                }}
+              >
+                Remove background music
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
       <ScrollArea className="h-[30vh]">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mb-8">
           {musicLinks.map((music, index) => (
             <MusicSamplePlayer
               key={`music-${index}`}

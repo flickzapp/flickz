@@ -20,6 +20,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ColorPicker } from "@/components/color-picker";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
 
 interface TypographyMenuInterface {
   currentFrame: number;
@@ -39,9 +40,13 @@ export default function TypographyMenu({
   const [fontColor, setFontColor] = useState(
     frames[currentFrame].fontColor || "#000000"
   );
+  const [duration, setDuration] = useState(frames[currentFrame].duration);
   const handlePropertyChange = (fieldKey: string, newVal: string) => {
     let newFrames = frames.map((frame: any, index: number) => {
       if (index === currentFrame) {
+        if (fieldKey === "duration") {
+          return { ...frame, [fieldKey]: parseFloat(newVal) };
+        }
         return { ...frame, [fieldKey]: newVal };
       }
       return frame;
@@ -200,6 +205,48 @@ export default function TypographyMenu({
           handlePropertyChange("fontColor", newFontColor);
         }}
       />
+      <div className="flex justify-between items-center ">
+        <h3 className="text-base font-semibold mt-4">Duration</h3>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Icons.horizontalEllipsis className="h-5 w-5" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => {
+                const tempFrames = [...frames];
+                tempFrames.forEach((frame) => {
+                  frame.duration = frames[currentFrame].duration;
+                });
+                setFrames(tempFrames);
+                setSavedChanges("saving");
+                toast({
+                  title: "Applied to all frames",
+                });
+              }}
+            >
+              Apply To All frames
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="flex gap-3 items-center">
+        <Input
+          type="number"
+          defaultValue={frames[currentFrame].duration}
+          step={0.5}
+          min={0.5}
+          max={10}
+          onChange={(e) => {
+            setDuration(parseFloat(e.target.value));
+          }}
+          onBlur={() => {
+            handlePropertyChange("duration", duration.toString());
+          }}
+          className="w-32"
+        />
+        seconds
+      </div>
     </div>
   );
 }

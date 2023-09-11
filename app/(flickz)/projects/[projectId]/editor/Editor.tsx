@@ -34,6 +34,7 @@ export default function Editor({
   const [currentFrameContent, setCurrentFrameContent] = useState(
     frames[0].text
   );
+  console.log(JSON.stringify(defaultFrames));
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];

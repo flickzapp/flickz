@@ -86,6 +86,9 @@ dependencies:
   '@remotion/tailwind':
     specifier: 4.0.22
     version: 4.0.22(@remotion/bundler@4.0.22)(typescript@5.1.6)(webpack@5.83.1)
+  '@stripe/stripe-js':
+    specifier: ^2.1.5
+    version: 2.1.5
   '@tailwindcss/line-clamp':
     specifier: ^0.4.4
     version: 0.4.4(tailwindcss@3.3.3)
@@ -161,6 +164,9 @@ dependencies:
   resend:
     specifier: ^0.17.2
     version: 0.17.2
+  stripe:
+    specifier: ^13.6.0
+    version: 13.6.0
   tailwind-merge:
     specifier: ^1.14.0
     version: 1.14.0
@@ -3587,6 +3593,10 @@ packages:
       '@smithy/abort-controller': 2.0.6
       '@smithy/types': 2.3.0
       tslib: 2.6.1
+    dev: false
+
+  /@stripe/stripe-js@2.1.5:
+    resolution: {integrity: sha512-vKztTjPYeCcX1Y1Ug2sE5+m/Gdm4CVAKGcQiRjLHQd2hDkjkVKClx3RbCStSi9rLRy50xHCiM+/kj4fbCHHA1Q==}
     dev: false
 
   /@swc/helpers@0.5.1:
@@ -7180,6 +7190,13 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /qs@6.11.2:
+    resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: false
+
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -7651,6 +7668,14 @@ packages:
   /strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+    dev: false
+
+  /stripe@13.6.0:
+    resolution: {integrity: sha512-0VSzva12onR75i708y2CB+UCeQKfPeLRkOCaGZYzHXiXiubB0C3pLKq+MPNfnajzfOeO6EVBita6rEAFGj0ZGA==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.4.5
+      qs: 6.11.2
     dev: false
 
   /strnum@1.0.5:

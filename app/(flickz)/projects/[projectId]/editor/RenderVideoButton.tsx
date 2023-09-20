@@ -1,17 +1,24 @@
+"use client";
+
 import { Icons } from "@/components/icons";
+import PricingComponent from "@/components/shared/Pricing";
 import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { COMP_NAME } from "@/lib/constants";
 import { useRendering } from "@/lib/lambda/use-rendering";
+import { useState } from "react";
 
 export default function RenderVideoButton({
   frames,
   project,
   savedChanges,
+  user,
 }: {
   frames: frameInputType[];
   project: EditorProjectType;
   savedChanges: "init" | "saving" | "saved";
+  user: any;
 }) {
   const tempFrames = [...frames];
   const { renderMedia, state, undo } = useRendering(COMP_NAME, {
@@ -19,8 +26,11 @@ export default function RenderVideoButton({
     aspectRatio: project.aspectRatio || "16:9",
     audioLink: project.audioLink,
   });
-
+  const [showMembershipModal, setShowMembershipModal] = useState(false);
   const handleSavedChanges = () => {
+    if (!user.isActive) {
+      setShowMembershipModal(true);
+    }
     if (savedChanges === "saving") {
       toast({
         title: "Please wait for the changes to save",
@@ -29,6 +39,14 @@ export default function RenderVideoButton({
       renderMedia();
     }
   };
+
+  if (showMembershipModal) {
+    return (
+      <Dialog>
+        <PricingComponent />
+      </Dialog>
+    );
+  }
   return (
     <div>
       {(state.status == "init" ||

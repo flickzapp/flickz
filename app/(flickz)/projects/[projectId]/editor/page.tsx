@@ -4,6 +4,8 @@ import Editor from "./Editor";
 import NavWrapper from "./NavWrapper";
 import { getCurrentUser } from "@/lib/session";
 import StateWrapper from "./StateWrapper";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function EditorPageWrap({
   params: { projectId },
@@ -52,10 +54,17 @@ export default async function EditorPageWrap({
       index: "asc",
     },
   });
-  const user = await getCurrentUser();
-  if (!user) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
     return redirect("/login");
   }
 
-  return <StateWrapper user={user} project={project} defaultFrames={frames} />;
+  return (
+    <StateWrapper
+      user={session.user}
+      project={project}
+      defaultFrames={frames}
+    />
+  );
 }

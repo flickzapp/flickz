@@ -2,13 +2,13 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
-
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 import { siteConfig } from "@/config/site";
 import { db } from "@/lib/db";
+import { stripe } from "./stripe";
 
 // const postmarkClient = new Client(env.POSTMARK_API_TOKEN)
 
@@ -74,6 +74,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
+        session.user.stripeCustomerId = token?.stripeCustomerId;
       }
 
       return session;
@@ -82,6 +83,14 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          stripeCustomerId: true,
+          isActive: true,
         },
       });
 
@@ -97,7 +106,25 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
+        stripeCustomerId: dbUser.stripeCustomerId,
+        isActive: dbUser.isActive,
       };
+    },
+  },
+  events: {
+    createUser: async ({ user }) => {
+      const res = await stripe.customers.create({
+        email: user.email!,
+        name: user.name!,
+      });
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          stripeCustomerId: res.id,
+        },
+      });
     },
   },
 };

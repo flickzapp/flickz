@@ -3,10 +3,11 @@
 import { Icons } from "@/components/icons";
 import PricingComponent from "@/components/shared/Pricing";
 import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { COMP_NAME } from "@/lib/constants";
 import { useRendering } from "@/lib/lambda/use-rendering";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RenderVideoButton({
@@ -21,15 +22,15 @@ export default function RenderVideoButton({
   user: any;
 }) {
   const tempFrames = [...frames];
+  const router = useRouter();
   const { renderMedia, state, undo } = useRendering(COMP_NAME, {
     frames: tempFrames,
     aspectRatio: project.aspectRatio || "16:9",
     audioLink: project.audioLink,
   });
-  const [showMembershipModal, setShowMembershipModal] = useState(false);
   const handleSavedChanges = () => {
     if (!user.isActive) {
-      setShowMembershipModal(true);
+      return router.push("/pricing");
     }
     if (savedChanges === "saving") {
       toast({
@@ -40,13 +41,6 @@ export default function RenderVideoButton({
     }
   };
 
-  if (showMembershipModal) {
-    return (
-      <Dialog>
-        <PricingComponent />
-      </Dialog>
-    );
-  }
   return (
     <div>
       {(state.status == "init" ||

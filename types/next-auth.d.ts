@@ -6,7 +6,7 @@ type UserId = string;
 declare module "next-auth/jwt" {
   interface JWT {
     id: UserId;
-    stripeCustomerId: string | null;
+    subscriptionId: string | null;
     isActive: boolean;
   }
 }
@@ -15,7 +15,7 @@ declare module "next-auth" {
   interface Session {
     user: User & {
       id: UserId;
-      stripeCustomerId: string | null;
+      subscriptionId: string | null;
       isActive: boolean;
     };
   }

@@ -8,7 +8,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 import { siteConfig } from "@/config/site";
 import { db } from "@/lib/db";
-import { stripe } from "./stripe";
 
 // const postmarkClient = new Client(env.POSTMARK_API_TOKEN)
 
@@ -74,7 +73,8 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
-        session.user.stripeCustomerId = token?.stripeCustomerId;
+        session.user.subscriptionId = token?.subscriptionId;
+        session.user.isActive = token?.isActive;
       }
 
       return session;
@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
           name: true,
           email: true,
           image: true,
-          stripeCustomerId: true,
+          subscriptionId: true,
           isActive: true,
         },
       });
@@ -106,25 +106,9 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
-        stripeCustomerId: dbUser.stripeCustomerId,
+        subscriptionId: dbUser.subscriptionId,
         isActive: dbUser.isActive,
       };
-    },
-  },
-  events: {
-    createUser: async ({ user }) => {
-      const res = await stripe.customers.create({
-        email: user.email!,
-        name: user.name!,
-      });
-      await db.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          stripeCustomerId: res.id,
-        },
-      });
     },
   },
 };

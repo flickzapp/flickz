@@ -1,31 +1,38 @@
 "use client";
 
-import getStripe from "@/lib/stripe-client";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import { useState } from "react";
 import { Icons } from "../icons";
+import { lemonDets } from "@/config/lemons";
+import { getSession } from "next-auth/react";
 
 export default function PricingComponent() {
   const [loading, setLoading] = useState(0);
-  const handleCreateStripeSession = async (productId: string) => {
-    const res = await fetch(`/api/stripe/checkout-session`, {
+  const session = getSession();
+
+  const handleCreatePaymentSession = async (productId: string) => {
+    const ressx = await session;
+    if (ressx?.user.isActive) {
+      toast({
+        title: "You are already subscribed",
+      });
+      return;
+    }
+    const res = await fetch(`/api/payments/subscribe`, {
       method: "POST",
-      body: JSON.stringify({ priceId: productId }),
+      body: JSON.stringify({ productId }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    if (res.status === 200) {
-      const sessionResp = await res.json();
-      const stripe = await getStripe();
-
-      const err = await stripe?.redirectToCheckout({
-        sessionId: sessionResp.sessionId,
+    if (res.status === 201) {
+      const checkoutURL = (await res.json()).checkoutURL;
+      window.location.href = checkoutURL;
+    } else {
+      toast({
+        title: "Error occured while processing payment",
       });
-      if (err) {
-        toast({ title: "Error While Processing Payments" });
-      }
     }
   };
   return (
@@ -81,8 +88,10 @@ export default function PricingComponent() {
                 disabled={loading === 1}
                 onClick={async () => {
                   setLoading(1);
-                  await handleCreateStripeSession(
-                    "price_1NrhleSCFth6DekLnAMRKiWh"
+                  await handleCreatePaymentSession(
+                    lemonDets["test"].weeklyProductId
+                    // "5494bc8c-493d-472b-aa3e-da1ecb011aad"
+                    // "132755"
                   );
                   setLoading(0);
                 }}
@@ -163,8 +172,10 @@ export default function PricingComponent() {
                 disabled={loading === 2}
                 onClick={async () => {
                   setLoading(2);
-                  await handleCreateStripeSession(
-                    "price_1NrhtDSCFth6DekLdcvg6iIc"
+                  await handleCreatePaymentSession(
+                    lemonDets["test"].monthlyProductId
+                    // "6a9ad4f1-4148-473f-ae17-023172e43b9c"
+                    // "132756"
                   );
                   setLoading(0);
                 }}

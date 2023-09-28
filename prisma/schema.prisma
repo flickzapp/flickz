@@ -47,7 +47,10 @@ model User {
   email            String?   @unique
   emailVerified    DateTime?
   image            String?
-  stripeCustomerId String?   @unique
+  subscriptionId   String?   @unique
+  customerId       String?
+  variantId        String?
+  currentPeriodEnd DateTime?
   isActive         Boolean   @default(false)
   accounts         Account[]
   sessions         Session[]

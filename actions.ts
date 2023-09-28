@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./lib/auth";
 import { db } from "./lib/db";
 import openai from "./lib/openai";
-import { defaultFontSize } from "./config/typographyMenuOpts";
 
 export async function createProjectAction(title: string, description: string) {
   "use server";
@@ -81,7 +80,7 @@ export async function createProjectAction(title: string, description: string) {
       entryAnimations[Math.floor(Math.random() * entryAnimations.length)],
     exitAnimate: exitAnimate[Math.floor(Math.random() * exitAnimate.length)],
     index,
-    fontSize: defaultFontSize,
+    fontSize: "7rem",
   }));
 
   // const frames = constructFrames(30).map((item, index) => ({

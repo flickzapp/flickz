@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
           },
         }),
         headers: {
-          Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY_TEST}`,
+          Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
         },
       }
     );

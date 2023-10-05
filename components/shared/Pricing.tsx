@@ -89,9 +89,9 @@ export default function PricingComponent() {
                 onClick={async () => {
                   setLoading(1);
                   await handleCreatePaymentSession(
-                    lemonDets["test"].weeklyProductId
-                    // "5494bc8c-493d-472b-aa3e-da1ecb011aad"
-                    // "132755"
+                    lemonDets[
+                      process.env.NODE_ENV === "development" ? "test" : "live"
+                    ].weeklyProductId
                   );
                   setLoading(0);
                 }}
@@ -173,9 +173,9 @@ export default function PricingComponent() {
                 onClick={async () => {
                   setLoading(2);
                   await handleCreatePaymentSession(
-                    lemonDets["test"].monthlyProductId
-                    // "6a9ad4f1-4148-473f-ae17-023172e43b9c"
-                    // "132756"
+                    lemonDets[
+                      process.env.NODE_ENV === "development" ? "test" : "live"
+                    ].monthlyProductId
                   );
                   setLoading(0);
                 }}

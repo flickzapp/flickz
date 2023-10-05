@@ -1,3 +1,4 @@
+// @ts-ignore
 import { LemonsqueezyClient } from "lemonsqueezy.ts";
 
 export const client = new LemonsqueezyClient(

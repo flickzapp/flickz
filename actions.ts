@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./lib/auth";
 import { db } from "./lib/db";
 import openai from "./lib/openai";
-import { defaultFontSize } from "./config/typographyMenuOpts";
 
 export async function createProjectAction(title: string, description: string) {
   "use server";
@@ -62,8 +61,7 @@ export async function createProjectAction(title: string, description: string) {
     messages: [
       {
         role: "system",
-        content:
-          "Given a paragraph which contains a product description, I want u to return a list of sentences which are highlights of the product. This list of sentences would be used in a video as an ad, thus needs to be sharp and cheezy!  Cos its an ad, there should be some sorta continuation between sentences as well. Return list of sentences in different lines. No extra output. Each sentence has maximum 7 words with no comma in between",
+        content: `Given a paragraph which contains a product description about product named ${title}, I want u to return a list of sentences which are highlights of the product. This list of sentences would be used in a video as an ad, thus needs to be sharp and cheezy!  Cos its an ad, there should be some sorta continuation between sentences as well. Return list of sentences in different lines. No extra output. Each sentence has maximum 7 words with no comma in between. The last sentence should include the product name`,
       },
       {
         role: "user",
@@ -76,12 +74,12 @@ export async function createProjectAction(title: string, description: string) {
   const aiDescriptionTextArray = aiDescriptionText?.split("\n");
   const aiFrames = aiDescriptionTextArray?.map((item, index) => ({
     text: item.trim(),
-    duration: Math.random() * 5 + 1,
+    duration: Math.random() * 5 + 2,
     entryAnimate:
       entryAnimations[Math.floor(Math.random() * entryAnimations.length)],
     exitAnimate: exitAnimate[Math.floor(Math.random() * exitAnimate.length)],
     index,
-    fontSize: defaultFontSize,
+    fontSize: "7rem",
   }));
 
   // const frames = constructFrames(30).map((item, index) => ({
@@ -104,8 +102,7 @@ export async function createProjectAction(title: string, description: string) {
       },
     },
   });
-  // console.log(session?.user.id);
-  // console.log(`User ${session?.user?.name} created a project ${title}`);
+
   return project;
 }
 

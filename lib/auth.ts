@@ -2,7 +2,6 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
-
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -74,6 +73,8 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
+        session.user.subscriptionId = token?.subscriptionId;
+        session.user.isActive = token?.isActive;
       }
 
       return session;
@@ -82,6 +83,14 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          subscriptionId: true,
+          isActive: true,
         },
       });
 
@@ -97,6 +106,8 @@ export const authOptions: NextAuthOptions = {
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
+        subscriptionId: dbUser.subscriptionId,
+        isActive: dbUser.isActive,
       };
     },
   },

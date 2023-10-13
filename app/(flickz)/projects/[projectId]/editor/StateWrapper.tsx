@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Editor from "./Editor";
 import NavWrapper from "./NavWrapper";
-import { User } from "next-auth";
 
 export default function StateWrapper({
   project,
@@ -12,7 +11,7 @@ export default function StateWrapper({
 }: {
   project: EditorProjectType;
   defaultFrames: any;
-  user: Pick<User, "name" | "image" | "email">;
+  user: any;
 }) {
   const [savedChanges, setSavedChanges] = useState<SavingStatusType>("init");
 

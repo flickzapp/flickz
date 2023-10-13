@@ -35,6 +35,7 @@ export default function NavWrapper({
               project={project}
               frames={defaultFrames}
               savedChanges={savedChanges}
+              user={user}
             />
             {savedChanges !== "init" && (
               <Button variant={"secondary"}>

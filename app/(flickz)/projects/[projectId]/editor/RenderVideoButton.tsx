@@ -1,26 +1,37 @@
+"use client";
+
 import { Icons } from "@/components/icons";
+import PricingComponent from "@/components/shared/Pricing";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { COMP_NAME } from "@/lib/constants";
 import { useRendering } from "@/lib/lambda/use-rendering";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function RenderVideoButton({
   frames,
   project,
   savedChanges,
+  user,
 }: {
   frames: frameInputType[];
   project: EditorProjectType;
   savedChanges: "init" | "saving" | "saved";
+  user: any;
 }) {
   const tempFrames = [...frames];
+  const router = useRouter();
   const { renderMedia, state, undo } = useRendering(COMP_NAME, {
     frames: tempFrames,
     aspectRatio: project.aspectRatio || "16:9",
     audioLink: project.audioLink,
   });
-
   const handleSavedChanges = () => {
+    if (!user.isActive) {
+      return router.push("/pricing");
+    }
     if (savedChanges === "saving") {
       toast({
         title: "Please wait for the changes to save",
@@ -29,6 +40,7 @@ export default function RenderVideoButton({
       renderMedia();
     }
   };
+
   return (
     <div>
       {(state.status == "init" ||

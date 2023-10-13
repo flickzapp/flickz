@@ -32,14 +32,14 @@ export default async function ProjectsPage() {
 
   if (projects.length === 0) {
     return (
-      <>
+      <div className="flex flex-col justify-center items-center h-[80vh] w-full gap-8">
         <h1 className="text-3xl font-extrabold">
           Create Your First Project Here!
         </h1>
         <Link href="/create">
           <Button>+ Project</Button>
         </Link>
-      </>
+      </div>
     );
   }
   return (

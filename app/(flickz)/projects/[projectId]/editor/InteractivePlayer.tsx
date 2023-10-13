@@ -24,8 +24,11 @@ function FrameRenderer({
 }) {
   const { fps, width, height } = useVideoConfig();
   const frame = useCurrentFrame();
-  const font = googleFonts.find((item) => item.family === ipframe.fontFamily);
-  font?.load().then((res) => {});
+  const fonts = googleFonts.find((font) => font.family === ipframe.fontFamily);
+  fonts?.load().then((res) => {
+    // @ts-ignore
+    res.loadFont.call();
+  });
   const entryProgress = spring({
     frame,
     fps,
@@ -114,7 +117,7 @@ function FrameRenderer({
 
       <div
         className={cn(
-          `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all prose`,
+          `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all`,
           `${ipframe.align} ${ipframe.fontWeight}}`
         )}
         // ${ipframe.fontSize || "text-9xl"}

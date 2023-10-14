@@ -1,5 +1,6 @@
 "use client";
 
+import { googleFonts } from "../../config/typographyMenuOpts";
 import { CompositionProps, ZFrame } from "../../types/lambda";
 import {
   Series,
@@ -16,6 +17,11 @@ import { z } from "zod";
 function FrameRenderer({ ipframe }: { ipframe: z.infer<typeof ZFrame> }) {
   const { fps } = useVideoConfig();
   const frame = useCurrentFrame();
+  const fonts = googleFonts.find((font) => font.family === ipframe.fontFamily);
+  fonts?.load().then((res) => {
+    // @ts-ignore
+    res.loadFont.call();
+  });
   const entryProgress = spring({
     frame,
     fps,

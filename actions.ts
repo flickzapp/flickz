@@ -156,6 +156,7 @@ export async function updateFramesAction(projectId: string, frames: any) {
       align,
       backgroundImgLink,
       backgroundVideoLink,
+      objects,
     } = frame;
     if (frame.id) {
       promises.push(
@@ -177,6 +178,7 @@ export async function updateFramesAction(projectId: string, frames: any) {
             backgroundImgLink,
             backgroundVideoLink,
             align,
+            objects,
           },
         })
       );
@@ -198,6 +200,7 @@ export async function updateFramesAction(projectId: string, frames: any) {
             backgroundImgLink,
             backgroundVideoLink,
             align,
+            objects,
             project: {
               connect: {
                 id: projectId,

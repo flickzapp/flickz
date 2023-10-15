@@ -16,8 +16,9 @@ import MediaMenu from "./MediaMenu";
 import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
 import { defaultFontSize } from "@/config/typographyMenuOpts";
 import ThumbnailComp from "./ThumnailComp";
+import { EDITOR_FPS } from "@/lib/constants";
 
-const fps = 60;
+const fps = EDITOR_FPS;
 export default function Editor({
   defaultFrames,
   project,
@@ -36,8 +37,6 @@ export default function Editor({
     frames[0].text
   );
   const [playing, setPlaying] = useState(true);
-  const [prevFrame, setPrevFrame] = useState(0);
-
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];
@@ -128,26 +127,6 @@ export default function Editor({
     return () => clearInterval(autoSave);
   }, [saveChanges]);
 
-  useEffect(() => {
-    playerRef.current?.addEventListener("play", () => {
-      setPlaying(true);
-    });
-    playerRef.current?.addEventListener("pause", () => {
-      setPlaying(false);
-      setPrevFrame(playerRef?.current?.getCurrentFrame() || 0);
-    });
-
-    const playerNode = playerRef.current;
-    return () => {
-      playerNode?.removeEventListener("play", () => {
-        setPlaying(true);
-      });
-      playerNode?.removeEventListener("pause", () => {
-        setPlaying(false);
-      });
-    };
-  }, [playerRef.current]);
-
   return (
     <div className="flex gap-4 justify-between">
       <div className="flex-1">
@@ -173,6 +152,16 @@ export default function Editor({
                       className="border-none rounded-lg resize-none outline-none"
                     />
                     <div className="flex items-center justify-end">
+                      <Button
+                        variant={"ghost"}
+                        onClick={(e) => {
+                          setPlaying(false);
+                          e.stopPropagation();
+                        }}
+                        className="px-1 h-5 hover:bg-transparent mx-1 mt-2"
+                      >
+                        <Icons.editIcon className="h-3 w-3" />
+                      </Button>
                       <Button
                         variant="ghost"
                         onClick={(e) => {
@@ -253,7 +242,6 @@ export default function Editor({
               compositionWidth={
                 getDimensionsForAspectRatio(project.aspectRatio || "16:9").width
               }
-              initialFrame={prevFrame}
               loop={true}
               controls={true}
               autoPlay={true}
@@ -266,6 +254,7 @@ export default function Editor({
             />
           ) : (
             <Thumbnail
+              key={currentFrame}
               component={ThumbnailComp}
               style={{
                 width: "100%",
@@ -280,9 +269,10 @@ export default function Editor({
               }
               inputProps={{
                 frames: frames,
-                currentFrame: currentFrame,
-                currentFrameText: currentFrameContent,
                 audioLink: project.audioLink,
+                currentFrame,
+                setFrames: setFrames,
+                setSavedChanges: setSavedChanges,
                 handlePlay: function () {
                   console.log("Reached");
                   setPlaying(true);

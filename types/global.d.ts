@@ -14,6 +14,7 @@ type frameInputType = {
   fontColor?: string;
   backgroundImgLink?: string;
   backgroundVideoLink?: string;
+  objects?: string;
 };
 
 // the type of project used in editor

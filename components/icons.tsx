@@ -40,6 +40,7 @@ import {
   Play,
   Pause,
   Save,
+  Pencil,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -82,6 +83,7 @@ export const Icons = {
   playIcon: Play,
   pauseIcon: Pause,
   save: Save,
+  editIcon: Pencil,
   logo: ({ ...props }: LucideProps) => (
     <svg
       width="45"

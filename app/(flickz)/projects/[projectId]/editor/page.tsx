@@ -49,6 +49,7 @@ export default async function EditorPageWrap({
       backgroundColor: true,
       backgroundImgLink: true,
       backgroundVideoLink: true,
+      objects: true,
     },
     orderBy: {
       index: "asc",

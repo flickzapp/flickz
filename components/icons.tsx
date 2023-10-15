@@ -39,6 +39,7 @@ import {
   Paintbrush,
   Play,
   Pause,
+  Save,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -80,6 +81,7 @@ export const Icons = {
   paintBrush: Paintbrush,
   playIcon: Play,
   pauseIcon: Pause,
+  save: Save,
   logo: ({ ...props }: LucideProps) => (
     <svg
       width="45"

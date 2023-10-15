@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Player, PlayerRef } from "@remotion/player";
+import { Player, PlayerRef, Thumbnail } from "@remotion/player";
 import InteractivePlayer from "./InteractivePlayer";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import MediaMenu from "./MediaMenu";
 import { getDimensionsForAspectRatio } from "@/lib/aspect-ratio";
 import { defaultFontSize } from "@/config/typographyMenuOpts";
+import ThumbnailComp from "./ThumnailComp";
 
 const fps = 60;
 export default function Editor({
@@ -34,6 +35,9 @@ export default function Editor({
   const [currentFrameContent, setCurrentFrameContent] = useState(
     frames[0].text
   );
+  const [playing, setPlaying] = useState(true);
+  const [prevFrame, setPrevFrame] = useState(0);
+
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];
@@ -124,6 +128,26 @@ export default function Editor({
     return () => clearInterval(autoSave);
   }, [saveChanges]);
 
+  useEffect(() => {
+    playerRef.current?.addEventListener("play", () => {
+      setPlaying(true);
+    });
+    playerRef.current?.addEventListener("pause", () => {
+      setPlaying(false);
+      setPrevFrame(playerRef?.current?.getCurrentFrame() || 0);
+    });
+
+    const playerNode = playerRef.current;
+    return () => {
+      playerNode?.removeEventListener("play", () => {
+        setPlaying(true);
+      });
+      playerNode?.removeEventListener("pause", () => {
+        setPlaying(false);
+      });
+    };
+  }, [playerRef.current]);
+
   return (
     <div className="flex gap-4 justify-between">
       <div className="flex-1">
@@ -210,32 +234,69 @@ export default function Editor({
 
       <div className="w-[60%] m-auto">
         <div className="overflow-hidden rounded-[20px]">
-          <Player
-            component={InteractivePlayer}
-            ref={playerRef}
-            durationInFrames={
-              frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
-            }
-            style={{
-              width: "100%",
-              maxHeight: "80vh",
-            }}
-            fps={fps}
-            compositionHeight={
-              getDimensionsForAspectRatio(project.aspectRatio || "16:9").height
-            }
-            compositionWidth={
-              getDimensionsForAspectRatio(project.aspectRatio || "16:9").width
-            }
-            loop={true}
-            controls={true}
-            inputProps={{
-              frames: frames,
-              currentFrame: currentFrame,
-              currentFrameText: currentFrameContent,
-              audioLink: project.audioLink,
-            }}
-          />
+          {playing ? (
+            <Player
+              component={InteractivePlayer}
+              ref={playerRef}
+              durationInFrames={
+                frames.reduce((acc, curr) => acc + curr.duration, 0) * fps
+              }
+              style={{
+                width: "100%",
+                maxHeight: "80vh",
+              }}
+              fps={fps}
+              compositionHeight={
+                getDimensionsForAspectRatio(project.aspectRatio || "16:9")
+                  .height
+              }
+              compositionWidth={
+                getDimensionsForAspectRatio(project.aspectRatio || "16:9").width
+              }
+              initialFrame={prevFrame}
+              loop={true}
+              controls={true}
+              autoPlay={true}
+              inputProps={{
+                frames: frames,
+                currentFrame: currentFrame,
+                currentFrameText: currentFrameContent,
+                audioLink: project.audioLink,
+              }}
+            />
+          ) : (
+            <Thumbnail
+              component={ThumbnailComp}
+              style={{
+                width: "100%",
+                maxHeight: "80vh",
+              }}
+              compositionHeight={
+                getDimensionsForAspectRatio(project.aspectRatio || "16:9")
+                  .height
+              }
+              compositionWidth={
+                getDimensionsForAspectRatio(project.aspectRatio || "16:9").width
+              }
+              inputProps={{
+                frames: frames,
+                currentFrame: currentFrame,
+                currentFrameText: currentFrameContent,
+                audioLink: project.audioLink,
+                handlePlay: function () {
+                  console.log("Reached");
+                  setPlaying(true);
+                },
+              }}
+              frameToDisplay={
+                playerRef.current?.getCurrentFrame() === undefined
+                  ? 0
+                  : playerRef.current?.getCurrentFrame()
+              }
+              durationInFrames={120}
+              fps={fps}
+            />
+          )}
         </div>
       </div>
       <div className="flex-1">

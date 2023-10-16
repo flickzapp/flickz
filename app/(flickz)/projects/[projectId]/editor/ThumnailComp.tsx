@@ -42,8 +42,8 @@ export default function ThumbnailComp({
   }, [editor, currentFrame]);
 
   return (
-    <AbsoluteFill className="w-full h-full rounded-3xl bg-slate-50 relative flex flex-col text-black">
-      <div className="flex gap-4 justify-center items-center py-4   ">
+    <AbsoluteFill className="w-full h-full rounded-3xl bg-slate-50 relative text-black">
+      <div className="flex gap-4 justify-center items-center py-4 absolute left-1/3 top-4 z-10">
         <Button variant={"ghost"} onClick={onAddText}>
           <Icons.typography className="w-8 h-8" />
         </Button>
@@ -75,7 +75,10 @@ export default function ThumbnailComp({
         </Button>
       </div>
 
-      <FabricJSCanvas className="h-full bg-slate-200" onReady={onReady} />
+      <FabricJSCanvas
+        className="h-full w-full bg-slate-200 absolute left-0 top-0"
+        onReady={onReady}
+      />
     </AbsoluteFill>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { googleFonts } from "@/config/typographyMenuOpts";
+import { EMPTY_CANVAS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import {
   Series,
@@ -29,6 +30,7 @@ function FrameRenderer({
     // @ts-ignore
     res.loadFont.call();
   });
+  const objects = JSON.parse(ipframe.objects || EMPTY_CANVAS).objects;
   const entryProgress = spring({
     frame,
     fps,
@@ -89,16 +91,14 @@ function FrameRenderer({
   };
   return (
     <AbsoluteFill
-      className={cn(
-        `flex items-center justify-center w-full h-full relative rounded-3xl`
-      )}
-      style={
-        !ipframe?.backgroundImgLink
-          ? { background: ipframe.backgroundColor }
-          : {}
-      }
+      className={cn(`rounded-3xl overflow-hidden`)}
+      // style={
+      //   !ipframe?.backgroundImgLink
+      //     ? { background: ipframe.backgroundColor }
+      //     : {}
+      // }
     >
-      {(ipframe.backgroundImgLink || ipframe.backgroundVideoLink) && (
+      {/* {(ipframe.backgroundImgLink || ipframe.backgroundVideoLink) && (
         <div className="absolute z-0 left-0 top-0 h-full w-full">
           <AbsoluteFill>
             {ipframe.backgroundImgLink && (
@@ -113,9 +113,36 @@ function FrameRenderer({
             )}
           </AbsoluteFill>
         </div>
-      )}
+      )} */}
+      <div className="relative h-full w-full bg-slate-100 ">
+        {objects?.map((obj: any, index: number) => (
+          <div
+            key={`${obj?.text}-${index}`}
+            style={{
+              position: "absolute",
+              left: obj?.left,
+              top: obj?.top,
+              width: obj?.width,
+              height: obj?.height,
+              color: obj?.fill,
+              scale: `${obj?.scaleX} ${obj?.scaleY}`,
+              transform: `rotate(${obj?.angle}deg)`,
+              fontWeight: obj?.fontWeight,
+              strokeWidth: obj?.strokeWidth,
+              fontSize: obj?.fontSize,
+              lineHeight: obj?.lineHeight,
+              minWidth: obj?.minWidth,
+              strokeLinejoin: obj?.strokeLinejoin,
+              strokeMiterlimit: obj?.strokeMiterlimit,
+              textAlign: obj?.textAlign,
+            }}
+          >
+            {obj?.text || ""}
+          </div>
+        ))}
+      </div>
 
-      <div
+      {/* <div
         className={cn(
           `z-10 !bg-clip-text text-transparent !bg-cover !bg-center transition-all`,
           `${ipframe.align} ${ipframe.fontWeight}}`
@@ -132,7 +159,7 @@ function FrameRenderer({
         }}
       >
         {currentFrame ? currentFrameText : ipframe.text}
-      </div>
+      </div> */}
     </AbsoluteFill>
   );
 }

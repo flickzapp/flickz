@@ -8,6 +8,7 @@ import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { useEffect, useState } from "react";
+import { transformTextToItext } from "@/lib/utils";
 
 export default function ThumbnailComp({
   frames,
@@ -33,7 +34,7 @@ export default function ThumbnailComp({
   useEffect(() => {
     if (editor && editor.canvas.getObjects().length === 0) {
       editor?.canvas.loadFromJSON(
-        JSON.parse(
+        transformTextToItext(
           frames[currentFrame].objects || '{"version": "5.3.0","objects":[]}'
         )
       );
@@ -43,7 +44,7 @@ export default function ThumbnailComp({
 
   return (
     <AbsoluteFill className="w-full h-full rounded-3xl bg-slate-50 relative text-black">
-      <div className="flex gap-4 justify-center items-center py-4 absolute left-1/3 top-4 z-10">
+      <div className="flex gap-4 justify-center items-center py-4 absolute left-1/2 top-4 z-10">
         <Button variant={"ghost"} onClick={onAddText}>
           <Icons.typography className="w-8 h-8" />
         </Button>

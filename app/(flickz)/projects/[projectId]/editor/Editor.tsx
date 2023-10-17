@@ -37,7 +37,7 @@ export default function Editor({
     frames[0].text
   );
   const [playing, setPlaying] = useState(true);
-  console.log(JSON.stringify(frames));
+  // console.log(JSON.stringify(frames));
   const moveUp = (inputIndex: number) => {
     if (inputIndex > 0) {
       let tempFrames = [...frames];

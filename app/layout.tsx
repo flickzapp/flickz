@@ -5,6 +5,7 @@ import { fontMono, fontSans } from "@/lib/fonts";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/config/site";
 import { Toaster } from "@/components/ui/toaster";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Flickz",
@@ -33,7 +34,9 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
+          <Providers>
+            {children}
+          </Providers>
           <Toaster />
         </ThemeProvider>
       </body>

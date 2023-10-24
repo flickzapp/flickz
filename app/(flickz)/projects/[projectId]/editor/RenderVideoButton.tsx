@@ -9,6 +9,8 @@ import { COMP_NAME } from "@/lib/constants";
 import { useRendering } from "@/lib/lambda/use-rendering";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDisclosure } from "@nextui-org/react";
+import DialogNextUI from "@/components/ui/dialog-nextui";
 
 export default function RenderVideoButton({
   frames,
@@ -28,9 +30,13 @@ export default function RenderVideoButton({
     aspectRatio: project.aspectRatio || "16:9",
     audioLink: project.audioLink,
   });
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const handleSavedChanges = () => {
     if (!user.isActive) {
-      return router.push("/pricing");
+      onOpen();
+      return;
     }
     if (savedChanges === "saving") {
       toast({
@@ -46,24 +52,24 @@ export default function RenderVideoButton({
       {(state.status == "init" ||
         state.status === "invoking" ||
         state.status === "error") && (
-        <>
-          <Button
-            disabled={state.status === "invoking"}
-            onClick={handleSavedChanges}
-          >
-            {state.status === "invoking" && (
-              <Icons.spinner className="h-5 w-5 animate-spin" />
+          <>
+            <Button
+              disabled={state.status === "invoking"}
+              onClick={handleSavedChanges}
+            >
+              {state.status === "invoking" && (
+                <Icons.spinner className="h-5 w-5 animate-spin" />
+              )}
+              Export Video
+            </Button>
+            {state.status === "error" && (
+              <div>
+                <strong>Error:</strong>
+                <p>{state.error.message}</p>
+              </div>
             )}
-            Export Video
-          </Button>
-          {state.status === "error" && (
-            <div>
-              <strong>Error:</strong>
-              <p>{state.error.message}</p>
-            </div>
-          )}
-        </>
-      )}
+          </>
+        )}
       {state.status === "rendering" && (
         <Button disabled variant={"default"}>
           <Icons.spinner className="h-5 w-5 animate-spin" />
@@ -77,6 +83,7 @@ export default function RenderVideoButton({
           </a>
         </Button>
       )}
+      <DialogNextUI isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>
   );
 }
